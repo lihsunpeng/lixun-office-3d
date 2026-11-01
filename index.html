@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-Hant"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta charset="utf-8"><title>v8・立勛整合設計公司 3D 虛擬辦公室</title>
+<!doctype html><html lang="zh-Hant"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta charset="utf-8"><title>v9・立勛整合設計公司 3D 虛擬辦公室</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>body{margin:0;overflow:hidden;font-family:"Noto Sans CJK TC",sans-serif;background:#dfe6ea}
 #ui{position:fixed;top:10px;left:10px;background:#fffd;padding:10px 14px;border-radius:10px;font-size:14px;max-width:320px}
@@ -226,7 +226,7 @@ for(const p of people){const base=MODELS[p.f?'w':(p.suit?'b':'m')];const m=SU.cl
  const face=faceSprite('assets/p_'+p.img+'.jpg');
  const tag=label(p.n,0,0,0,p.n.startsWith('彭')?'#ffe08aee':'#ffffffee',22);tag.scale.multiplyScalar(.5);
  Object.assign(p,{g,m,mix,aI,aW,head,face,tag,neck:B('Neck'),bones:{lu:B('LeftUpLeg'),ru:B('RightUpLeg'),ll:B('LeftLeg'),rl:B('RightLeg'),la:B('LeftArm'),ra:B('RightArm'),lf:B('LeftForeArm'),rf:B('RightForeArm'),sp:B('Spine')},
-  route:[p.seat,...p.way],seg:0,state:'sit',wait:4+Math.random()*8,t:Math.random()*9});
+  route:[p.seat,...p.way],seg:0,state:'sit',wait:1+Math.random()*5,t:Math.random()*9});
  g.position.set(p.seat[0],0,p.seat[1]);g.rotation.y=Math.PI;}
 window.__people=people;const Q=new URLSearchParams(location.search);window.SIT={y:+(Q.get('sy')??-0.27),u:+(Q.get('su')??1.5),l:+(Q.get('sl')??-1.5),f:+(Q.get('sf')??-1.2)};const SIT=window.SIT;window.ARM={x:+(Q.get('ax')??1.1),z:+(Q.get('az')??0)};const ARM=window.ARM;
 const v3=new THREE.Vector3();
@@ -250,6 +250,6 @@ R.domElement.addEventListener('click',e=>{mp.set(e.clientX/innerWidth*2-1,-(e.cl
  const objs=[];people.forEach(p=>{objs.push(p.face,p.tag);p.m.traverse(o=>{if(o.isMesh)objs.push(o)})});
  const h=ray.intersectObjects(objs,false)[0];if(!h)return;const p=people.find(q=>q.face===h.object||q.tag===h.object||(()=>{let f=false;q.m.traverse(o=>{if(o===h.object)f=true});return f})());if(p)showTasks(p.n)});
 const qs=new URLSearchParams(location.search).get('who');if(qs)setTimeout(()=>showTasks(qs),50);
-window.__ready=true;window.__early=false;{const m=document.getElementById('loadmsg');m&&m.remove()}(function loop(){requestAnimationFrame(loop);step(Math.min(clock.getDelta(),.05));if(window.__eowSpin)window.__eowSpin.rotation.z+=.02;O.update();R.render(S,C)})();
+window.__ready=true;window.__early=false;{const m=document.getElementById('loadmsg');m&&m.remove()}(function loop(){requestAnimationFrame(loop);step(Math.min(clock.getDelta(),.25));if(window.__eowSpin)window.__eowSpin.rotation.z+=.02;O.update();R.render(S,C)})();
 });
 </script></body></html>
