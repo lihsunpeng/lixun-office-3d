@@ -13,7 +13,7 @@ h1{font-size:16px;margin:0 0 6px}</style>
 <script type="module">
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
-const R=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});R.setPixelRatio(Math.min(devicePixelRatio,2));R.setSize(innerWidth,innerHeight);R.shadowMap.enabled=true;document.body.appendChild(R.domElement);
+const R=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});R.setPixelRatio(Math.min(devicePixelRatio,innerWidth<900?1:1.5));R.domElement.addEventListener('webglcontextlost',e=>{e.preventDefault();setTimeout(()=>location.reload(),800)});R.setSize(innerWidth,innerHeight);R.shadowMap.enabled=true;document.body.appendChild(R.domElement);
 const S=new THREE.Scene();S.background=new THREE.Color(0xdfe6ea);
 const C=new THREE.PerspectiveCamera(45,innerWidth/innerHeight,0.1,200);
 const O=new OrbitControls(C,R.domElement);O.enableDamping=true;
