@@ -240,9 +240,9 @@ window.setView=setView;window.stopWalk=()=>{walking=false};
 function lineup(){walking=false;S.traverse(o=>{if(o.isSprite&&!(window.__people||[]).some(p=>p.face===o||p.tag===o))o.visible=false});window.__lineup&&window.__lineup()}
 const AL={overview:'總覽',finance:'財經區',wellness:'健康綠色區',travel:'旅遊區',creative:'創意語言區',chief:'幕僚長室',boss:'老闆辦公室',closeup:'人物特寫',people:'人物介紹'};let h0=decodeURIComponent(location.hash.slice(1));h0=AL[h0]||h0;if(!views[h0])h0='總覽';if(h0==='人物介紹')window.__onReady=lineup;setView(h0||'總覽');{const cq=new URLSearchParams(location.search).get('cam');if(cq){const v=cq.split(',').map(Number);C.position.set(v[0],v[1],v[2]);O.target.set(v[3],v[4],v[5]);O.update()}}
 
-{const MV={'看螢幕：老闆':[2,-.8],'幕僚長':[-2,-.8],'Golden':[-8,-5],'Tesla':[-12.5,-3.2],'台波波':[-6,-8.6],'Wendy':[7.5,-3],'Green':[11,-9.2],'Johnny':[6.5,7.5],'Creative':[-6,2.6],'Sandy':[-6.5,8.4]};
+{const MV={'看螢幕：老闆':[2,-.8],'幕僚長':[-2,-.8],'Golden':[-8,-5],'Tesla':[-12.5,-3.2],'台波波':[-6,-8.6],'Wendy':[7.5,-3],'Green':[11,-9.2],'Johnny':[6.5,7.5],'Creative':[-6,2.6,1.35],'Sandy':[-6.5,8.4]};
 const row=document.createElement('div');row.style.marginTop='4px';vd.appendChild(row);
-for(const k in MV){const [x,z]=MV[k];const b=document.createElement('button');b.textContent=k;b.onclick=()=>{walking=false;C.fov=45;C.updateProjectionMatrix();C.position.set(x+.3,1.8,z+1.75);O.target.set(x,1.15,z-.3);O.update()};row.appendChild(b)}}
+for(const k in MV){const [x,z,dz=1.75]=MV[k];const b=document.createElement('button');b.textContent=k;b.onclick=()=>{walking=false;C.fov=45;C.updateProjectionMatrix();C.position.set(x+.3,1.8,z+dz);O.target.set(x,1.15,z-.3);O.update()};row.appendChild(b)}}
 {const b=document.createElement('button');b.textContent='全員排排站看臉';b.onclick=()=>{lineup();setView('人物介紹')};vd.appendChild(b)}
 addEventListener('resize',()=>{C.aspect=innerWidth/innerHeight;C.updateProjectionMatrix();R.setSize(innerWidth,innerHeight)});
 (function loop(){requestAnimationFrame(loop);step(Math.min(clock.getDelta(),.05));if(window.__eowSpin)window.__eowSpin.rotation.z+=.02;O.update();R.render(S,C)})();
