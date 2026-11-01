@@ -73,6 +73,31 @@ plant(-15,10,1.2);plant(15,10,1.2);
 desk({x:-2,z:-.8,name:'Grok Bot（幕僚長）',top:0x2f2f3a,mon:3});L('Grok Bot｜幕僚長',-2,.2);desk({x:2,z:-.8,name:'彭立勛（老闆）',top:0x5a3a22,mon:2,extra:g=>{box(.5,.02,.35,0xf0e6d0,.5,.79,.15,g)}});L('彭立勛｜老闆',2,.2);plant(3.4,-2.6,.9);box(1.6,.45,.7,0x6b4a3a,2,.22,2.2);
 // ===== Realistic avatars (GLTF skinned bodies + photo faces) =====
 import('three/addons/loaders/GLTFLoader.js').then(async ({GLTFLoader})=>{
+const TASKS={
+'彭立勛（老闆）':{role:'公司負責人・最終決策',duty:['審閱各 Agent 週六 23:30 週報','核准每週用量方案與停工／復工','交辦臨時任務給各專員'],now:['驗收 3D 辦公室公開版','要求螢幕顯示各專員專案']},
+'Grok Bot（幕僚長）':{role:'幕僚長・統籌協調',duty:['每天 07:00 短版晨報','每週三 09:00 提醒回報用量','週六 23:30 收齊週報並彙整','分派與追蹤各 Agent 工作'],now:['3D 辦公室已上線 GitHub Pages','新增：每台螢幕顯示專案內容']},
+'Golden（投資）':{role:'股票／投資分析',duty:['每天一份簡短股票報告＋扣款提醒','維護國泰世華／國泰證券持股快照（收盤價更新）','投資決策室：收盤、交易、銀行基準資料'],now:['待確認：鴻海成本價差異']},
+'Tesla SpaceX（電動車）':{role:'Tesla／SpaceX／電動車資訊',duty:['新聞與 X 動態追蹤','股價走勢圖表'],now:['依方案：立勛詢問時才工作','週六 23:30 交週報']},
+'台波波（波蘭/台灣）':{role:'波蘭／台灣資訊橋樑',duty:['每週一週報','波蘭媒體＋中文摘要','台波活動資料夾'],now:['下一份：週一週報']},
+'Wendy（養生）':{role:'養生／健康',duty:['草本、節氣養生資訊','健康相關提醒'],now:['依方案：立勛詢問時才工作','週六 23:30 交週報']},
+'Green（植物）':{role:'植物／環境',duty:['綠植照護資料夾','顯微鏡觀察、水質檢測、樹木標本'],now:['依方案：立勛詢問時才工作','週六 23:30 交週報']},
+'Johnny（旅遊）':{role:'旅遊規劃',duty:['TripPlanning 行程時間軸','地圖與路線資料'],now:['依方案：立勛詢問時才工作','週六 23:30 交週報']},
+'Creative（創意）':{role:'創意設計',duty:['封面、草稿、已交付作品資料夾','色票與分鏡'],now:['依方案：立勛詢問時才工作','週六 23:30 交週報']},
+'Sandy（語言家教）':{role:'語言家教',duty:['每週一、三、五課程','單字表＋每日閱讀'],now:['下一次：週一課程']},
+};
+// on-screen project displays
+function scrTex(title,sub,lines,col){const c=document.createElement('canvas');c.width=512;c.height=300;const x=c.getContext('2d');
+x.fillStyle='#0d1b2a';x.fillRect(0,0,512,300);x.fillStyle=col;x.fillRect(0,0,512,62);x.fillStyle='#fff';x.font='bold 40px sans-serif';x.fillText(title,14,46);
+x.fillStyle='#ffd166';x.font='bold 28px sans-serif';x.fillText(sub,14,98);x.fillStyle='#e8f1ff';x.font='bold 36px sans-serif';
+let y=140;for(const l of lines){let t='• '+l;while(t.length){let n=t.length;while(x.measureText(t.slice(0,n)).width>484)n--;x.fillText(t.slice(0,n),14,y);y+=44;t=t.slice(n);if(y>290)break}if(y>290)break}
+const tx=new THREE.CanvasTexture(c);tx.colorSpace=THREE.SRGBColorSpace;tx.anisotropy=8;return new THREE.MeshBasicMaterial({map:tx})}
+const COLS=['#1d4ed8','#047857','#b45309','#7c3aed'];
+for(const d of DESKS){const t=TASKS[d.name];if(!t)continue;const short=d.name.split('（')[0];
+ const pages=[[short+'・進行中',t.role,t.now],[short+'・負責項目','每日／每週工作',t.duty]];
+ if(d.scr.length>2){pages.push([short+'・負責 2/2','續',t.duty.slice(2).concat(t.now)]);}
+ if(d.scr.length>3)pages.push([short+'・狀態','週報',['週六 23:30 交週報','有問題即時回報幕僚長']]);
+ if(d.scr.length===1)pages[0]=[short+'・進行中',t.role,t.now.concat(t.duty)];
+ d.scr.forEach((m,i)=>{const pg=pages[i%pages.length];m.material=scrTex(pg[0],pg[1],pg[2],COLS[i%4])});}
 const SU=await import('three/addons/utils/SkeletonUtils.js');
 const ld=new GLTFLoader();const ldg=u=>new Promise((r,j)=>ld.load(u,r,undefined,j));
 const [gw,gb,gm]=await Promise.all([ldg('assets/g_woman.glb'),ldg('assets/g_businessman.glb'),ldg('assets/g_man.glb')]);const MODELS={w:gw,b:gb,m:gm};
@@ -117,33 +142,8 @@ window.__tick=(dt)=>{for(const p of people){p.t+=dt;p.mix.update(dt);
   const ty=Math.sin(p.t*14)*.06;b.lf&&(b.lf.rotation.x=SIT.f+ty);b.rf&&(b.rf.rotation.x=SIT.f-ty)}
  const hb=p.head||p.neck;hb.getWorldPosition(v3);p.face.position.set(v3.x,v3.y+.55,v3.z);p.tag.position.set(v3.x,v3.y+.85+(p.lineupOff||0),v3.z);p.face.position.y+= (p.lineupOff||0)}};
 window.__lineup=()=>{people.forEach((p,i)=>{p.state='hold';setWalk(p,false);p.g.position.set(-4.5+i*1,0,4.2);p.g.rotation.y=0;p.lineupOff=i%2?0:.32})};
-const TASKS={
-'彭立勛（老闆）':{role:'公司負責人・最終決策',duty:['審閱各 Agent 週六 23:30 週報','核准每週用量方案與停工／復工','交辦臨時任務給各專員'],now:['驗收 3D 辦公室公開版','要求螢幕顯示各專員專案']},
-'Grok Bot（幕僚長）':{role:'幕僚長・統籌協調',duty:['每天 07:00 短版晨報','每週三 09:00 提醒回報用量','週六 23:30 收齊週報並彙整','分派與追蹤各 Agent 工作'],now:['3D 辦公室已上線 GitHub Pages','新增：每台螢幕顯示專案內容']},
-'Golden（投資）':{role:'股票／投資分析',duty:['每天一份簡短股票報告＋扣款提醒','維護國泰世華／國泰證券持股快照（收盤價更新）','投資決策室：收盤、交易、銀行基準資料'],now:['待確認：鴻海成本價差異']},
-'Tesla SpaceX（電動車）':{role:'Tesla／SpaceX／電動車資訊',duty:['新聞與 X 動態追蹤','股價走勢圖表'],now:['依方案：立勛詢問時才工作','週六 23:30 交週報']},
-'台波波（波蘭/台灣）':{role:'波蘭／台灣資訊橋樑',duty:['每週一週報','波蘭媒體＋中文摘要','台波活動資料夾'],now:['下一份：週一週報']},
-'Wendy（養生）':{role:'養生／健康',duty:['草本、節氣養生資訊','健康相關提醒'],now:['依方案：立勛詢問時才工作','週六 23:30 交週報']},
-'Green（植物）':{role:'植物／環境',duty:['綠植照護資料夾','顯微鏡觀察、水質檢測、樹木標本'],now:['依方案：立勛詢問時才工作','週六 23:30 交週報']},
-'Johnny（旅遊）':{role:'旅遊規劃',duty:['TripPlanning 行程時間軸','地圖與路線資料'],now:['依方案：立勛詢問時才工作','週六 23:30 交週報']},
-'Creative（創意）':{role:'創意設計',duty:['封面、草稿、已交付作品資料夾','色票與分鏡'],now:['依方案：立勛詢問時才工作','週六 23:30 交週報']},
-'Sandy（語言家教）':{role:'語言家教',duty:['每週一、三、五課程','單字表＋每日閱讀'],now:['下一次：週一課程']},
-};
 
 
-// on-screen project displays
-function scrTex(title,sub,lines,col){const c=document.createElement('canvas');c.width=512;c.height=300;const x=c.getContext('2d');
-x.fillStyle='#0d1b2a';x.fillRect(0,0,512,300);x.fillStyle=col;x.fillRect(0,0,512,62);x.fillStyle='#fff';x.font='bold 34px sans-serif';x.fillText(title,14,44);
-x.fillStyle='#ffd166';x.font='bold 28px sans-serif';x.fillText(sub,14,98);x.fillStyle='#e8f1ff';x.font='bold 30px sans-serif';
-let y=140;for(const l of lines){let t='• '+l;while(t.length){let n=t.length;while(x.measureText(t.slice(0,n)).width>484)n--;x.fillText(t.slice(0,n),14,y);y+=38;t=t.slice(n);if(y>290)break}if(y>290)break}
-const tx=new THREE.CanvasTexture(c);tx.colorSpace=THREE.SRGBColorSpace;tx.anisotropy=8;return new THREE.MeshBasicMaterial({map:tx})}
-const COLS=['#1d4ed8','#047857','#b45309','#7c3aed'];
-for(const d of DESKS){const t=TASKS[d.name];if(!t)continue;const short=d.name.split('（')[0];
- const pages=[[short+'・進行中',t.role,t.now],[short+'・負責項目','每日／每週工作',t.duty]];
- if(d.scr.length>2){pages.push([short+'・負責 2/2','續',t.duty.slice(2).concat(t.now)]);}
- if(d.scr.length>3)pages.push([short+'・狀態','週報',['週六 23:30 交週報','有問題即時回報幕僚長']]);
- if(d.scr.length===1)pages[0]=[short+'・進行中',t.role,t.now.concat(t.duty)];
- d.scr.forEach((m,i)=>{const pg=pages[i%pages.length];m.material=scrTex(pg[0],pg[1],pg[2],COLS[i%4])});}
 const ray=new THREE.Raycaster(),mp=new THREE.Vector2();
 window.showTasks=(n)=>{const d=TASKS[n];if(!d)return;const p=people.find(x=>x.n===n);const el=document.getElementById('panel');
 el.innerHTML=`<div style="display:flex;gap:10px;align-items:center"><img src="assets/p_${p.img}.jpg" style="width:64px;height:64px;border-radius:50%;object-fit:cover"><div><b style="font-size:16px">${n}</b><br>${d.role}</div></div><div style="margin-top:8px"><b>負責項目</b><ul style="margin:4px 0 0 18px;padding:0">${d.duty.map(x=>'<li>'+x+'</li>').join('')}</ul></div><div style="margin-top:6px"><b>目前進行中</b><ul style="margin:4px 0 0 18px;padding:0">${d.now.map(x=>'<li>'+x+'</li>').join('')}</ul></div><div style="font-size:12px;color:#666;margin-top:6px">資料時間：2026-11-01（依立勛核准的用量方案）</div><button onclick="this.parentNode.style.display='none'" style="margin-top:6px">關閉</button>`;el.style.display='block'};
@@ -162,6 +162,10 @@ function setView(k){const [p,t]=views[k];C.fov=k==='人物介紹'?66:45;C.update
 window.setView=setView;window.stopWalk=()=>{walking=false};
 function lineup(){walking=false;S.traverse(o=>{if(o.isSprite&&!(window.__people||[]).some(p=>p.face===o||p.tag===o))o.visible=false});window.__lineup&&window.__lineup()}
 const AL={overview:'總覽',finance:'財經區',wellness:'健康綠色區',travel:'旅遊區',creative:'創意語言區',chief:'幕僚長室',boss:'老闆辦公室',closeup:'人物特寫',people:'人物介紹'};let h0=decodeURIComponent(location.hash.slice(1));h0=AL[h0]||h0;if(!views[h0])h0='總覽';if(h0==='人物介紹')window.__onReady=lineup;setView(h0||'總覽');{const cq=new URLSearchParams(location.search).get('cam');if(cq){const v=cq.split(',').map(Number);C.position.set(v[0],v[1],v[2]);O.target.set(v[3],v[4],v[5]);O.update()}}
+
+{const MV={'看螢幕：老闆':[2,-.8],'幕僚長':[-2,-.8],'Golden':[-8,-5],'Tesla':[-12.5,-3.2],'台波波':[-6,-8.6],'Wendy':[7.5,-3],'Green':[11,-9.2],'Johnny':[6.5,7.5],'Creative':[-6,2.6],'Sandy':[-6.5,8.4]};
+const row=document.createElement('div');row.style.marginTop='4px';vd.appendChild(row);
+for(const k in MV){const [x,z]=MV[k];const b=document.createElement('button');b.textContent=k;b.onclick=()=>{walking=false;C.fov=45;C.updateProjectionMatrix();C.position.set(x+.3,1.8,z+1.75);O.target.set(x,1.15,z-.3);O.update()};row.appendChild(b)}}
 {const b=document.createElement('button');b.textContent='全員排排站看臉';b.onclick=()=>{lineup();setView('人物介紹')};vd.appendChild(b)}
 addEventListener('resize',()=>{C.aspect=innerWidth/innerHeight;C.updateProjectionMatrix();R.setSize(innerWidth,innerHeight)});
 (function loop(){requestAnimationFrame(loop);step(Math.min(clock.getDelta(),.05));O.update();R.render(S,C)})();
