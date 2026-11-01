@@ -51,7 +51,7 @@ label('線上資料區',2.1,2.8,8.8,'#e3f2ffee',44);label('週報｜綠植｜Tri
 function plant(x,z,s=1){box(.35*s,.4*s,.35*s,0xb76e46,x,.2*s,z);const m=new THREE.Mesh(new THREE.SphereGeometry(.45*s,12,10),M(0x3f9a4a));m.position.set(x,.75*s,z);m.castShadow=true;S.add(m)}
 // desk builder
 function sticker(x,y,z,c){box(.14,.14,.01,c,x,y,z)}
-const DESKS=[];function desk({x,z,rot=0,wood=0x9a7350,top,mon=2,monC=0x222,name,extra}){const g=new THREE.Group();const scr=[];DESKS.push({name,scr});g.position.set(x,0,z);g.rotation.y=rot;S.add(g);
+const DESKS=[];function desk({x,z,rot=0,wood=0x9a7350,top,mon=2,monC=0x222,name,extra}){const g=new THREE.Group();const scr=[];DESKS.push({name,scr,pos:[x,z]});g.position.set(x,0,z);g.rotation.y=rot;S.add(g);
 box(1.8,.06,.9,top??wood,0,.75,0,g);for(const [a,b] of [[-.8,-.38],[.8,-.38],[-.8,.38],[.8,.38]])box(.06,.75,.06,0x555,a,.37,b,g);
 for(let i=0;i<mon;i++){const ox=(i-(mon-1)/2)*.62;box(.58,.36,.04,monC,ox,1.15,-.3,g);scr.push(box(.54,.32,.01,new THREE.MeshStandardMaterial({color:0x8fc4ff,emissive:0x2a5d8f,emissiveIntensity:.6}),ox,1.15,-.275,g));box(.05,.2,.05,0x333,ox,.88,-.3,g)}
 box(.5,.45,.5,0x334,0,.25,.75,g);box(.5,.5,.08,0x334,0,.7,1,g);extra&&extra(g);return g}
@@ -98,6 +98,83 @@ for(const d of DESKS){const t=TASKS[d.name];if(!t)continue;const short=d.name.sp
  if(d.scr.length>3)pages.push([short+'・狀態','週報',['週六 23:30 交週報','有問題即時回報幕僚長']]);
  if(d.scr.length===1)pages[0]=[short+'・進行中',t.role,t.now.concat(t.duty)];
  d.scr.forEach((m,i)=>{const pg=pages[i%pages.length];m.material=scrTex(pg[0],pg[1],pg[2],COLS[i%4])});}
+// ===== 每週桌面擺設（依個性與嗜好，每週一自動換） + 本週最佳員工 =====
+const WEEK0=new Date('2026-11-02T00:00:00+08:00');
+const WQ=new URLSearchParams(location.search).get('week');
+const WEEK=WQ!=null?+WQ:Math.max(0,Math.floor((Date.now()-WEEK0)/6048e5));
+const wkStart=new Date(WEEK0.getTime()+WEEK*6048e5),wkEnd=new Date(wkStart.getTime()+6*864e5);
+const fmt=d=>(d.getMonth()+1)+'/'+d.getDate();const WLABEL=`第 ${WEEK+1} 週（${fmt(wkStart)}–${fmt(wkEnd)}）`;
+const DG=(x,y,z)=>{const g=new THREE.Group();g.position.set(x,y,z);S.add(g);return g};
+const cyl=(rt,rb,h,c,x,y,z,p,seg=16)=>{const m=new THREE.Mesh(new THREE.CylinderGeometry(rt,rb,h,seg),typeof c==='object'?c:M(c));m.position.set(x,y,z);m.castShadow=true;p.add(m);return m};
+const sph=(r,c,x,y,z,p)=>{const m=new THREE.Mesh(new THREE.SphereGeometry(r,16,12),typeof c==='object'?c:M(c));m.position.set(x,y,z);m.castShadow=true;p.add(m);return m};
+const GOLD=new THREE.MeshStandardMaterial({color:0xffc83d,metalness:.85,roughness:.25});
+const SHAPES={
+ rocket:g=>{cyl(.04,.04,.22,0xf5f5f5,0,.11,0,g);cyl(0,.04,.08,0xd62828,0,.26,0,g);box(.1,.05,.01,0x333,0,.03,0,g);box(.01,.05,.1,0x333,0,.03,0,g)},
+ trophy:g=>{cyl(.05,.07,.03,0x3a2a1a,0,.015,0,g);cyl(.012,.012,.08,GOLD,0,.07,0,g);cyl(.07,.03,.09,GOLD,0,.15,0,g)},
+ globe:g=>{cyl(.05,.06,.02,0x444,0,.01,0,g);cyl(.006,.006,.08,0x888,0,.05,0,g);sph(.08,0x2f7fd8,0,.16,0,g);sph(.081,new THREE.MeshStandardMaterial({color:0x3fa34d,wireframe:true}),0,.16,0,g)},
+ cactus:g=>{cyl(.06,.05,.07,0xc0703f,0,.035,0,g);cyl(.03,.03,.16,0x3c8d40,0,.15,0,g);cyl(.015,.015,.06,0x3c8d40,.04,.16,0,g)},
+ bonsai:g=>{box(.18,.04,.1,0x333a55,0,.02,0,g);cyl(.012,.02,.1,0x6b4a2b,0,.09,0,g);sph(.07,0x2e7d32,.03,.17,0,g);sph(.05,0x388e3c,-.05,.14,0,g)},
+ mug:g=>{cyl(.04,.04,.09,0xffffff,0,.045,0,g);cyl(.03,.03,.01,0x5b3a1e,0,.088,0,g);box(.015,.05,.02,0xffffff,.05,.05,0,g)},
+ books:g=>{[0xb22222,0x1e3a8a,0x2a9d8f,0xe9c46a].forEach((c,i)=>box(.2-.02*i,.035,.14,c,0,.018+i*.036,0,g))},
+ bull:g=>{box(.16,.07,.07,GOLD,0,.07,0,g);box(.05,.05,.05,GOLD,.1,.09,0,g);[-.03,.03].forEach(z=>{box(.01,.035,.01,GOLD,.11,.13,z,g)});[[-.06,-.025],[-.06,.025],[.06,-.025],[.06,.025]].forEach(([a,b])=>box(.015,.04,.015,GOLD,a,.02,b,g))},
+ car:g=>{box(.2,.05,.09,0xc1121f,0,.04,0,g);box(.1,.04,.08,0x222,-.01,.085,0,g);[[-.065,-.05],[-.065,.05],[.065,-.05],[.065,.05]].forEach(([a,b])=>{const w=cyl(.022,.022,.015,0x111,a,.022,b,g);w.rotation.x=Math.PI/2})},
+ flagPL:g=>{cyl(.004,.004,.2,0x888,0,.1,0,g);box(.12,.035,.003,0xffffff,.06,.18,0,g);box(.12,.035,.003,0xdc143c,.06,.145,0,g);cyl(.03,.03,.01,0x333,0,.005,0,g)},
+ flagTW:g=>{cyl(.004,.004,.2,0x888,0,.1,0,g);box(.12,.07,.003,0xfe0000,.06,.16,0,g);box(.05,.035,.004,0x000095,.035,.178,0,g);cyl(.03,.03,.01,0x333,0,.005,0,g)},
+ teapot:g=>{sph(.06,0x7a4b2a,0,.06,0,g);cyl(.01,.015,.06,0x7a4b2a,.07,.08,0,g).rotation.z=-.8;sph(.015,0x7a4b2a,0,.12,0,g)},
+ crystal:g=>{const m=new THREE.Mesh(new THREE.OctahedronGeometry(.07),new THREE.MeshStandardMaterial({color:0xb388ff,metalness:.3,roughness:.1,transparent:true,opacity:.85}));m.position.y=.09;m.castShadow=true;g.add(m)},
+ camera:g=>{box(.14,.08,.06,0x222,0,.04,0,g);const l=cyl(.03,.03,.05,0x555,0,.04,.05,g);l.rotation.x=Math.PI/2},
+ palette:g=>{cyl(.1,.1,.01,0xe0c39a,0,.006,0,g);[0xe63946,0x2a9d8f,0xf4a261,0x264653,0xffd166].forEach((c,i)=>sph(.015,c,Math.cos(i*1.2)*.06,.015,Math.sin(i*1.2)*.06,g))},
+ lamp:g=>{cyl(.05,.05,.015,0x222,0,.008,0,g);cyl(.006,.006,.2,0x222,0,.1,0,g);cyl(.03,.07,.07,0xffd166,0,.22,0,g)},
+ plane:g=>{box(.2,.03,.03,0xe0e0e0,0,.12,0,g);box(.04,.005,.2,0xe0e0e0,0,.12,0,g);box(.02,.05,.005,0xd62828,-.09,.14,0,g);cyl(.004,.004,.1,0x888,0,.05,0,g)},
+ compass:g=>{cyl(.06,.06,.02,0xb08d57,0,.01,0,g);box(.08,.003,.012,0xd62828,0,.022,0,g)},
+ microscope:g=>{box(.1,.02,.08,0x222,0,.01,0,g);box(.02,.14,.02,0x333,-.03,.08,0,g);const t=cyl(.015,.015,.1,0xdddddd,0,.14,0,g);t.rotation.z=.4},
+ abacus:g=>{box(.2,.12,.02,0x6b4a2b,0,.06,0,g);for(let r=0;r<3;r++)for(let i=0;i<5;i++)sph(.01,0xd62828,-.07+i*.035,.03+r*.035,.015,g)},
+ vinyl:g=>{const d=cyl(.09,.09,.005,0x111,0,.003,0,g);cyl(.03,.03,.006,0xffd166,0,.004,0,g)},
+ duck:g=>{sph(.05,0xffd60a,0,.05,0,g);sph(.03,0xffd60a,.03,.1,0,g);box(.03,.01,.02,0xf77f00,.065,.1,0,g)},
+ hourglass:g=>{cyl(.05,.05,.01,0x6b4a2b,0,.005,0,g);cyl(.04,.005,.07,new THREE.MeshStandardMaterial({color:0xf2e8cf,transparent:true,opacity:.7}),0,.045,0,g);cyl(.005,.04,.07,new THREE.MeshStandardMaterial({color:0xf2e8cf,transparent:true,opacity:.7}),0,.115,0,g);cyl(.05,.05,.01,0x6b4a2b,0,.155,0,g)},
+ cube:g=>{[0xd62828,0x2a9d8f,0xffd166].forEach((c,i)=>box(.1,.033,.1,c,0,.017+i*.034,0,g))},
+ terrarium:g=>{sph(.08,new THREE.MeshStandardMaterial({color:0xcfefff,transparent:true,opacity:.35}),0,.08,0,g);sph(.04,0x3c8d40,0,.05,0,g)},
+ candle:g=>{cyl(.03,.03,.08,0xfff3e0,0,.04,0,g);sph(.012,new THREE.MeshStandardMaterial({color:0xffb703,emissive:0xff8800,emissiveIntensity:1}),0,.095,0,g)},
+ statue:g=>{cyl(.04,.05,.03,0x777,0,.015,0,g);sph(.04,0xdddddd,0,.08,0,g);cyl(.02,.035,.08,0xdddddd,0,.14,0,g)},
+ dino:g=>{box(.14,.06,.05,0x52b788,0,.06,0,g);box(.05,.08,.04,0x52b788,.07,.11,0,g);box(.08,.02,.02,0x52b788,-.1,.05,0,g)},
+};
+// 每人四週輪替主題（第 1 週 → 第 4 週，之後循環）
+const DECOR={
+ '彭立勛（老闆）':[['設計大師書房',['books','statue','lamp']],['建築模型週',['cube','hourglass','globe']],['黑膠夜',['vinyl','candle','mug']],['旅人收藏',['plane','compass','camera']]],
+ 'Grok Bot（幕僚長）':[['火箭任務控制',['rocket','hourglass','mug']],['未來實驗室',['crystal','cube','lamp']],['指揮中心',['globe','compass','books']],['恐龍駭客',['dino','vinyl','duck']]],
+ 'Golden（投資）':[['金牛開市',['bull','trophy','abacus']],['老派交易員',['hourglass','mug','books']],['藏金庫',['crystal','trophy','candle']],['巴菲特讀書會',['books','abacus','lamp']]],
+ 'Tesla SpaceX（電動車）':[['火星殖民',['rocket','car','globe']],['賽車維修站',['car','trophy','cube']],['星艦觀測',['rocket','crystal','lamp']],['電池實驗',['cube','hourglass','dino']]],
+ '台波波（波蘭/台灣）':[['台波雙旗',['flagPL','flagTW','teapot']],['華沙咖啡',['mug','books','candle']],['蕭邦之夜',['vinyl','statue','lamp']],['波蘭陶瓷',['teapot','globe','camera']]],
+ 'Wendy（養生）':[['節氣茶席',['teapot','candle','bonsai']],['草本藥櫃',['terrarium','books','mug']],['禪意療癒',['crystal','candle','hourglass']],['晨間瑜伽',['bonsai','duck','lamp']]],
+ 'Green（植物）':[['迷你雨林',['terrarium','cactus','bonsai']],['顯微觀察',['microscope','terrarium','books']],['沙漠多肉',['cactus','cactus','hourglass']],['苔蘚盆景',['bonsai','terrarium','candle']]],
+ 'Johnny（旅遊）':[['環遊世界',['globe','plane','compass']],['背包客',['camera','compass','mug']],['機場候機',['plane','hourglass','books']],['探險家',['dino','globe','camera']]],
+ 'Creative（創意）':[['畫室日常',['palette','lamp','cube']],['潮玩收藏',['duck','dino','crystal']],['攝影暗房',['camera','vinyl','candle']],['雕塑工作坊',['statue','palette','hourglass']]],
+ 'Sandy（語言家教）':[['多語書牆',['books','globe','mug']],['英倫下午茶',['teapot','books','candle']],['單字魔方',['cube','hourglass','lamp']],['世界郵票',['compass','plane','books']]],
+};
+const DESKPOS={};for(const d of DESKS)DESKPOS[d.name]=d.pos;
+const SLOTS=[[-.72,.15],[.72,.15],[-.45,.3]];
+for(const n in DECOR){const p=DESKPOS[n];if(!p)continue;const [th,items]=DECOR[n][WEEK%4];
+ items.forEach((k,i)=>{const g=DG(p[0]+SLOTS[i][0],.78,p[1]+SLOTS[i][1]);g.scale.setScalar(1.6);g.rotation.y=(i-1)*.5;SHAPES[k](g)});
+ {const sp=label('🎁 本週主題：'+th,p[0]+.7,1.0,p[1]+.45,'#ffe8f3ee',30);sp.scale.multiplyScalar(.45)}}
+// 本週最佳員工：老闆親選（存在這台裝置；?eow= 可直接指定）
+const STAFF=Object.keys(TASKS).filter(n=>!n.startsWith('彭立勛'));
+const EOWQ=new URLSearchParams(location.search).get('eow');
+const eowKey='eow_'+WEEK;let EOW=EOWQ?STAFF.find(n=>n.startsWith(EOWQ)):localStorage.getItem(eowKey);
+let eowObjs=[];
+function placeEOW(){eowObjs.forEach(o=>S.remove(o));eowObjs=[];const bar=document.getElementById('eowbar');
+ if(!EOW){bar.innerHTML=`🏆 ${WLABEL} 最佳員工 #1：<b>待老闆彭立勛選定</b>`;return}
+ const p=DESKPOS[EOW];bar.innerHTML=`🏆 ${WLABEL} 最佳員工 #1：<b>${EOW}</b>（老闆彭立勛親選）`;
+ if(!p)return;const g=DG(p[0],0,p[1]);eowObjs.push(g);const t=DG(0,0,0);g.add(t);t.position.set(.25,.78,.25);t.scale.setScalar(2.4);SHAPES.trophy(t);
+ const cr=new THREE.Mesh(new THREE.TorusGeometry(.45,.06,10,28),GOLD);cr.rotation.x=Math.PI/2;cr.position.set(0,2.55,.6);g.add(cr);
+ const ring=new THREE.Mesh(new THREE.RingGeometry(1.1,1.3,40),new THREE.MeshBasicMaterial({color:0xffc83d,side:THREE.DoubleSide,transparent:true,opacity:.75}));ring.rotation.x=-Math.PI/2;ring.position.set(0,.02,.4);g.add(ring);
+ const lb=label('🏆 本週最佳員工 #1',p[0],2.9,p[1]+.6,'#ffd166f2',34);eowObjs.push(lb);window.__eowSpin=cr}
+{const bar=document.createElement('div');bar.id='eowbar';bar.style.cssText='position:fixed;top:10px;left:50%;transform:translateX(-50%);background:#fff6d6;border:2px solid #f0b400;border-radius:12px;padding:8px 16px;font:bold 17px sans-serif;z-index:9;box-shadow:0 2px 8px #0003;text-align:center';
+ const sel=document.createElement('select');sel.style.cssText='margin-left:10px;font-size:15px';sel.innerHTML='<option value="">老闆選擇…</option>'+STAFF.map(n=>`<option>${n}</option>`).join('');
+ sel.onchange=()=>{EOW=sel.value||null;EOW?localStorage.setItem(eowKey,EOW):localStorage.removeItem(eowKey);placeEOW();bar.appendChild(sel)};
+ document.body.appendChild(bar);placeEOW();bar.appendChild(sel);
+ const w=document.createElement('div');w.style.cssText='font:13px sans-serif;margin-top:4px;color:#7a5b00';w.textContent='每週一自動更換每位專員的桌面擺設；最佳員工由老闆每週親選';bar.appendChild(w);
+ const op=placeEOW;placeEOW=()=>{op();bar.appendChild(sel);bar.appendChild(w)};}
+
 const SU=await import('three/addons/utils/SkeletonUtils.js');
 const ld=new GLTFLoader();const ldg=u=>new Promise((r,j)=>ld.load(u,r,undefined,j));
 const [gw,gb,gm]=await Promise.all([ldg('assets/g_woman.glb'),ldg('assets/g_businessman.glb'),ldg('assets/g_man.glb')]);const MODELS={w:gw,b:gb,m:gm};
@@ -168,5 +245,5 @@ const row=document.createElement('div');row.style.marginTop='4px';vd.appendChild
 for(const k in MV){const [x,z]=MV[k];const b=document.createElement('button');b.textContent=k;b.onclick=()=>{walking=false;C.fov=45;C.updateProjectionMatrix();C.position.set(x+.3,1.8,z+1.75);O.target.set(x,1.15,z-.3);O.update()};row.appendChild(b)}}
 {const b=document.createElement('button');b.textContent='全員排排站看臉';b.onclick=()=>{lineup();setView('人物介紹')};vd.appendChild(b)}
 addEventListener('resize',()=>{C.aspect=innerWidth/innerHeight;C.updateProjectionMatrix();R.setSize(innerWidth,innerHeight)});
-(function loop(){requestAnimationFrame(loop);step(Math.min(clock.getDelta(),.05));O.update();R.render(S,C)})();
+(function loop(){requestAnimationFrame(loop);step(Math.min(clock.getDelta(),.05));if(window.__eowSpin)window.__eowSpin.rotation.z+=.02;O.update();R.render(S,C)})();
 </script></body></html>
