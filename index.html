@@ -191,6 +191,9 @@ const row=document.createElement('div');row.style.marginTop='4px';vd.appendChild
 for(const k in MV){const [x,z,dz=1.75]=MV[k];const b=document.createElement('button');b.textContent=k;b.onclick=()=>{walking=false;C.fov=45;C.updateProjectionMatrix();C.position.set(x+.3,1.8,z+dz);O.target.set(x,1.15,z-.3);O.update()};row.appendChild(b)}}
 
 addEventListener('resize',()=>{C.aspect=innerWidth/innerHeight;C.updateProjectionMatrix();R.setSize(innerWidth,innerHeight)});
+{const ui=document.getElementById('ui');const t=document.createElement('button');t.textContent='☰ 選單';t.style.cssText='position:fixed;left:10px;top:10px;z-index:11;font:bold 15px sans-serif;padding:6px 10px;border-radius:8px';
+let open=innerWidth>=900;const ap=()=>{ui.style.display=open?'':'none';t.style.top=open?'auto':'10px';t.style.bottom=open?'10px':'auto'};t.onclick=()=>{open=!open;ap()};document.body.appendChild(t);ap();
+ui.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{if(innerWidth<900){open=false;ap()}}))}
 // 先把房間、螢幕、擺設畫出來，不等人物模型下載
 window.__early=true;(function eloop(){if(!window.__early)return;requestAnimationFrame(eloop);O.update();R.render(S,C)})();
 {const ld=document.createElement('div');ld.id='loadmsg';ld.style.cssText='position:fixed;bottom:14px;left:50%;transform:translateX(-50%);background:#223c;color:#fff;padding:8px 16px;border-radius:10px;font:15px sans-serif;z-index:9';ld.textContent='人物模型載入中…（螢幕與擺設已可先看）';document.body.appendChild(ld)}
