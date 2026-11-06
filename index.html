@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-Hant"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta charset="utf-8"><title>v9・立勛整合設計公司 3D 虛擬辦公室</title>
+<!doctype html><html lang="zh-Hant"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta charset="utf-8"><title>v10・立勛整合設計公司 3D 虛擬辦公室</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>body{margin:0;overflow:hidden;font-family:"Noto Sans CJK TC",sans-serif;background:#dfe6ea}
 #ui{position:fixed;top:10px;left:10px;background:#fffd;padding:10px 14px;border-radius:10px;font-size:14px;max-width:320px}
@@ -51,7 +51,7 @@ label('線上資料區',2.1,2.8,8.8,'#e3f2ffee',44);label('週報｜綠植｜Tri
 function plant(x,z,s=1){box(.35*s,.4*s,.35*s,0xb76e46,x,.2*s,z);const m=new THREE.Mesh(new THREE.SphereGeometry(.45*s,12,10),M(0x3f9a4a));m.position.set(x,.75*s,z);m.castShadow=true;S.add(m)}
 // desk builder
 function sticker(x,y,z,c){box(.14,.14,.01,c,x,y,z)}
-const DESKS=[];function desk({x,z,rot=0,wood=0x9a7350,top,mon=2,monC=0x222,name,extra}){const g=new THREE.Group();const scr=[];DESKS.push({name,scr,pos:[x,z]});g.position.set(x,0,z);g.rotation.y=rot;S.add(g);
+const DESKS=[];function desk({x,z,rot=0,wood=0x9a7350,top,mon=2,monC=0x222,name,extra}){const g=new THREE.Group();const scr=[];DESKS.push({name,scr,pos:[x,z],g});g.position.set(x,0,z);g.rotation.y=rot;S.add(g);
 box(1.8,.06,.9,top??wood,0,.75,0,g);for(const [a,b] of [[-.8,-.38],[.8,-.38],[-.8,.38],[.8,.38]])box(.06,.75,.06,0x555,a,.37,b,g);
 for(let i=0;i<mon;i++){const ox=(i-(mon-1)/2)*.62;box(.58,.36,.04,monC,ox,1.15,-.3,g);scr.push(box(.54,.32,.01,new THREE.MeshStandardMaterial({color:0x8fc4ff,emissive:0x2a5d8f,emissiveIntensity:.6}),ox,1.15,-.275,g));box(.05,.2,.05,0x333,ox,.88,-.3,g)}
 box(.5,.45,.5,0x334,0,.25,.75,g);box(.5,.5,.08,0x334,0,.7,1,g);extra&&extra(g);return g}
@@ -71,6 +71,7 @@ desk({x:-6.5,z:8.4,name:'Sandy（語言家教）',top:0xdcc29a,mon:1,extra:g=>{b
 plant(-15,10,1.2);plant(15,10,1.2);
 // chief desk
 desk({x:-2,z:-.8,name:'Grok Bot（幕僚長）',top:0x2f2f3a,mon:3});L('Grok Bot｜幕僚長',-2,.2);desk({x:2,z:-.8,name:'彭立勛（老闆）',top:0x5a3a22,mon:2,extra:g=>{box(.5,.02,.35,0xf0e6d0,.5,.79,.15,g)}});L('彭立勛｜老闆',2,.2);plant(3.4,-2.6,.9);box(1.6,.45,.7,0x6b4a3a,2,.22,2.2);
+window.__T={THREE,S,C,R,O,DESKS,box,label,sun};if(innerWidth<900){R.shadowMap.enabled=false;sun.castShadow=false}
 // ===== Realistic avatars (GLTF skinned bodies + photo faces) =====
 import('three/addons/loaders/GLTFLoader.js').then(async ({GLTFLoader})=>{
 const TASKS={
@@ -238,7 +239,7 @@ window.__tick=(dt)=>{for(const p of people){p.t+=dt;p.mix.update(dt);
  else{p.wait-=dt;if(p.wait<=0){p.seg=(p.seg+1)%p.route.length;p.state='walk';setWalk(p,true)}}
  const b=p.bones;p.g.position.y=0;if(p.state==='sit'){b.la&&(b.la.rotation.z=ARM.z,b.la.rotation.x=ARM.x);b.ra&&(b.ra.rotation.z=-ARM.z,b.ra.rotation.x=ARM.x)}
  if(p.state==='sit'){p.g.position.y=SIT.y;for(const k of['lu','ru'])b[k]&&(b[k].rotation.x=SIT.u);for(const k of['ll','rl'])b[k]&&(b[k].rotation.x=SIT.l);
-  const ty=Math.sin(p.t*14)*.06;b.lf&&(b.lf.rotation.x=SIT.f+ty);b.rf&&(b.rf.rotation.x=SIT.f-ty)}
+  const ty=(window.__typing?window.__typing(p.n):1)*Math.sin(p.t*14)*.06;b.lf&&(b.lf.rotation.x=SIT.f+ty);b.rf&&(b.rf.rotation.x=SIT.f-ty)}
  const hb=p.head||p.neck;hb.getWorldPosition(v3);p.face.position.set(v3.x,v3.y+.55,v3.z);p.tag.position.set(v3.x,v3.y+.85+(p.lineupOff||0),v3.z);p.face.position.y+= (p.lineupOff||0)}};
 window.__lineup=()=>{people.forEach((p,i)=>{p.state='hold';setWalk(p,false);p.g.position.set(-4.5+i*1,0,4.2);p.g.rotation.y=0;p.lineupOff=i%2?0:.32})};
 
@@ -252,4 +253,4 @@ R.domElement.addEventListener('click',e=>{mp.set(e.clientX/innerWidth*2-1,-(e.cl
 const qs=new URLSearchParams(location.search).get('who');if(qs)setTimeout(()=>showTasks(qs),50);
 window.__ready=true;window.__early=false;{const m=document.getElementById('loadmsg');m&&m.remove()}(function loop(){requestAnimationFrame(loop);step(Math.min(clock.getDelta(),.25));if(window.__eowSpin)window.__eowSpin.rotation.z+=.02;O.update();R.render(S,C)})();
 });
-</script></body></html>
+</script><script type="module" src="upgrades.js?v=10"></script></body></html>
