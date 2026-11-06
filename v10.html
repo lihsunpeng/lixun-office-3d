@@ -33,7 +33,7 @@ zone(4,.5,15.8,10.8,0xeadfca,'③ 旅遊／地理區');zone(-15.8,.5,-4,10.8,0xf
 // glass room helper
 const glass=new THREE.MeshStandardMaterial({color:0xbfe3ff,transparent:true,opacity:.28});
 function room(x1,z1,x2,z2,c,t,doorSide){box(x2-x1,.03,z2-z1,c,(x1+x2)/2,.02,(z1+z2)/2);const h=2.4,w=x2-x1,d=z2-z1;box(w,h,.08,glass,(x1+x2)/2,h/2,z1);box(.08,h,d,glass,x1,h/2,(z1+z2)/2);box(.08,h,d,glass,x2,h/2,(z1+z2)/2);box(w*.35,h,.08,glass,x1+w*.175,h/2,z2);box(w*.35,h,.08,glass,x2-w*.175,h/2,z2);box(w,.08,.1,0x667,(x1+x2)/2,h,z2);label(t,(x1+x2)/2,3,(z1+z2)/2,'#ffffffee',44)}
-room(-3.8,-3,-0.2,3,0xe8e4f5,'Grok Bot 幕僚長室');room(0.2,-3,3.8,3,0xf3e6cc,'老闆辦公室・彭立勛');
+room(-3.8,-3,-0.2,3,0xe8e4f5,'Grok Bot CEO室');room(0.2,-3,3.8,3,0xf3e6cc,'老闆辦公室・彭立勛');
 room(-3,-10.8,3,-5,0xdde3ea,'會議／簡報室');
 room(-15.6,-10.6,-10.2,-6.5,0xb7c4d6,'投資決策室（可關門）');
 // meeting room furniture
@@ -76,7 +76,7 @@ window.__T={THREE,S,C,R,O,DESKS,box,label,sun};if(innerWidth<900){R.shadowMap.en
 import('three/addons/loaders/GLTFLoader.js').then(async ({GLTFLoader})=>{
 const TASKS={
 '彭立勛（老闆）':{role:'公司負責人・最終決策',duty:['審閱各 Agent 週六 23:30 週報','核准每週用量方案與停工／復工','交辦臨時任務給各專員'],now:['驗收 3D 辦公室公開版','要求螢幕顯示各專員專案']},
-'Grok Bot CEO':{role:'幕僚長・統籌協調',duty:['每天 07:00 短版晨報','每週三 09:00 提醒回報用量','週六 23:30 收齊週報並彙整','分派與追蹤各 Agent 工作'],now:['3D 辦公室已上線 GitHub Pages','新增：每台螢幕顯示專案內容']},
+'Grok Bot CEO':{role:'CEO・統籌協調',duty:['每天 07:00 短版晨報','每週三 09:00 提醒回報用量','週六 23:30 收齊週報並彙整','分派與追蹤各 Agent 工作'],now:['3D 辦公室已上線 GitHub Pages','新增：每台螢幕顯示專案內容']},
 'Golden股票投資顧問':{role:'股票／投資分析',duty:['每天一份簡短股票報告＋扣款提醒','維護國泰世華／國泰證券持股快照（收盤價更新）','投資決策室：收盤、交易、銀行基準資料'],now:['待確認：鴻海成本價差異']},
 'Tesla SpaceX（電動車）':{role:'Tesla／SpaceX／電動車資訊',duty:['新聞與 X 動態追蹤','股價走勢圖表'],now:['依方案：立勛詢問時才工作','週六 23:30 交週報']},
 '台歐情報':{role:'波蘭／台灣資訊橋樑',duty:['每週一週報','波蘭媒體＋中文摘要','台波活動資料夾'],now:['下一份：週一週報']},
@@ -180,14 +180,14 @@ function placeEOW(){eowObjs.forEach(o=>S.remove(o));eowObjs=[];const bar=documen
 let walking=true;document.getElementById('walk').onclick=e=>{walking=!walking;e.target.textContent='▶ 走動／工作 動畫：'+(walking?'開':'關')};
 const clock=new THREE.Clock();
 function step(dt){window.__tick&&window.__tick(dt)}
-const views={'總覽':[[0,26,22],[0,0,0]],'財經區':[[-4,9,4],[-10,0,-6]],'健康綠色區':[[4,9,4],[10,0,-6]],'旅遊區':[[2,8,1],[9,0,8]],'創意語言區':[[-1,8,1],[-8,0,7]],'幕僚長室':[[-5,4.5,5],[-2,1,-0.5]],'人物特寫':[[-5.5,2.2,-1.2],[-8,1.1,-4.2]],'老闆辦公室':[[5,4.5,5],[2,1,-0.5]]};
+const views={'總覽':[[0,26,22],[0,0,0]],'財經區':[[-4,9,4],[-10,0,-6]],'健康綠色區':[[4,9,4],[10,0,-6]],'旅遊區':[[2,8,1],[9,0,8]],'創意語言區':[[-1,8,1],[-8,0,7]],'CEO室':[[-5,4.5,5],[-2,1,-0.5]],'人物特寫':[[-5.5,2.2,-1.2],[-8,1.1,-4.2]],'老闆辦公室':[[5,4.5,5],[2,1,-0.5]]};
 const vd=document.getElementById('views');for(const k in views){const b=document.createElement('button');b.textContent=k;b.onclick=()=>setView(k);vd.appendChild(b)}
 function setView(k){const [p,t]=views[k];C.fov=k==='人物介紹'?66:45;C.updateProjectionMatrix();C.position.set(...p);O.target.set(...t);O.update()}
 window.setView=setView;window.stopWalk=()=>{walking=false};
 function lineup(){walking=false;S.traverse(o=>{if(o.isSprite&&!(window.__people||[]).some(p=>p.face===o||p.tag===o))o.visible=false});window.__lineup&&window.__lineup()}
-const AL={overview:'總覽',finance:'財經區',wellness:'健康綠色區',travel:'旅遊區',creative:'創意語言區',chief:'幕僚長室',boss:'老闆辦公室',closeup:'人物特寫'};let h0=decodeURIComponent(location.hash.slice(1));h0=AL[h0]||h0;if(!views[h0])h0='總覽';setView(h0||'總覽');{const cq=new URLSearchParams(location.search).get('cam');if(cq){const v=cq.split(',').map(Number);C.position.set(v[0],v[1],v[2]);O.target.set(v[3],v[4],v[5]);O.update()}}
+const AL={overview:'總覽',finance:'財經區',wellness:'健康綠色區',travel:'旅遊區',creative:'創意語言區',chief:'CEO室',boss:'老闆辦公室',closeup:'人物特寫'};let h0=decodeURIComponent(location.hash.slice(1));h0=AL[h0]||h0;if(!views[h0])h0='總覽';setView(h0||'總覽');{const cq=new URLSearchParams(location.search).get('cam');if(cq){const v=cq.split(',').map(Number);C.position.set(v[0],v[1],v[2]);O.target.set(v[3],v[4],v[5]);O.update()}}
 
-{const MV={'看螢幕：老闆':[2,-.8],'幕僚長':[-2,-.8],'Golden':[-8,-5],'Tesla':[-12.5,-3.2],'台歐情報':[-6,-8.6],'Wendy':[7.5,-3],'Green':[11,-9.2],'Johnny':[6.5,7.5],'Creative':[-6,2.6,1.35],'Sandy':[-6.5,8.4]};
+{const MV={'看螢幕：老闆':[2,-.8],'CEO':[-2,-.8],'Golden':[-8,-5],'Tesla':[-12.5,-3.2],'台歐情報':[-6,-8.6],'Wendy':[7.5,-3],'Green':[11,-9.2],'Johnny':[6.5,7.5],'Creative':[-6,2.6,1.35],'Sandy':[-6.5,8.4]};
 const row=document.createElement('div');row.style.marginTop='4px';vd.appendChild(row);
 for(const k in MV){const [x,z,dz=1.75]=MV[k];const b=document.createElement('button');b.textContent=k;b.onclick=()=>{walking=false;C.fov=45;C.updateProjectionMatrix();C.position.set(x+.3,1.8,z+dz);O.target.set(x,1.15,z-.3);O.update()};row.appendChild(b)}}
 
