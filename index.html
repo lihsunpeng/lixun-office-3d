@@ -96,7 +96,7 @@ const COLS=['#1d4ed8','#047857','#b45309','#7c3aed'];
 for(const d of DESKS){const t=TASKS[d.name];if(!t)continue;const short=d.name.split('（')[0];
  const pages=[[short+'・進行中',t.role,t.now],[short+'・負責項目','每日／每週工作',t.duty]];
  if(d.scr.length>2){pages.push([short+'・負責 2/2','續',t.duty.slice(2).concat(t.now)]);}
- if(d.scr.length>3)pages.push([short+'・狀態','週報',['週六 23:30 交週報','有問題即時回報幕僚長']]);
+ if(d.scr.length>3)pages.push([short+'・狀態','週報',['週六 23:30 交週報','有問題即時回報CEO']]);
  if(d.scr.length===1)pages[0]=[short+'・進行中',t.role,t.now.concat(t.duty)];
  d.scr.forEach((m,i)=>{const pg=pages[i%pages.length];m.material=scrTex(pg[0],pg[1],pg[2],COLS[i%4])});}
 // ===== 每週桌面擺設（依個性與嗜好，每週一自動換） + 本週最佳員工 =====
