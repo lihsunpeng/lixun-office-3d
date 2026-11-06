@@ -66,7 +66,7 @@ desk({x:11,z:-9.2,name:'Green動植物學家',top:0x7fb77e,extra:g=>{box(.15,.4,
 // Zone3
 desk({x:6.5,z:7.5,name:'Johnny旅遊規劃師',top:0xf2e6cf,extra:g=>{box(1.4,.8,.04,0xffffff,1.4,1.3,-.2,g)}});L('Johnny｜行程時間軸＋地圖',6.5,8.3);box(.05,1.5,2.5,0xf5efe0,15.8,1.6,6);label('地圖牆',15.4,2.6,6,'#fff',30);
 // Zone4
-desk({x:-6,z:2.6,name:'Creative',top:0xc79a6a,extra:g=>{box(.4,.02,.3,0x222,.6,.79,.15,g);for(let i=0;i<5;i++)sticker(-.8+i*.16,.79,.3,[0xe63946,0xf4a261,0x2a9d8f,0x264653,0xe9c46a][i])}});L('Creative｜繪圖板・色票・分鏡',-6,3.4);
+desk({x:-6,z:2.6,name:'Athena智慧工藝女神',top:0xc79a6a,extra:g=>{box(.4,.02,.3,0x222,.6,.79,.15,g);for(let i=0;i<5;i++)sticker(-.8+i*.16,.79,.3,[0xe63946,0xf4a261,0x2a9d8f,0x264653,0xe9c46a][i])}});L('Athena智慧工藝女神｜繪圖板・色票・分鏡',-6,3.4);
 desk({x:-6.5,z:8.4,name:'Sandy外語老師',top:0xdcc29a,mon:1,extra:g=>{box(.3,.25,.2,0x8b0000,-.6,.9,0,g);box(.3,.22,.2,0x1e3a8a,-.25,.9,0,g)}});box(3,2.2,.4,0x8a6a4a,-11,1.1,10.6);for(let i=0;i<12;i++)box(.2,.4,.3,[0x7b2d26,0x2d5d7b,0x5a7b2d,0xb08d57][i%4],-12.3+i*.22,1.6,10.45);label('閱讀角書櫃',-11,2.6,10,'#fff',30);L('Sandy｜雙語字典・閱讀角',-6.5,9.2);
 plant(-15,10,1.2);plant(15,10,1.2);
 // chief desk
@@ -83,7 +83,7 @@ const TASKS={
 'Wendy醫學院教授':{role:'養生／健康',duty:['草本、節氣養生資訊','健康相關提醒'],now:['依方案：立勛詢問時才工作','週六 23:30 交週報']},
 'Green動植物學家':{role:'植物／環境',duty:['綠植照護資料夾','顯微鏡觀察、水質檢測、樹木標本'],now:['依方案：立勛詢問時才工作','週六 23:30 交週報']},
 'Johnny旅遊規劃師':{role:'旅遊規劃',duty:['TripPlanning 行程時間軸','地圖與路線資料'],now:['依方案：立勛詢問時才工作','週六 23:30 交週報']},
-'Creative':{role:'創意設計',duty:['封面、草稿、已交付作品資料夾','色票與分鏡'],now:['依方案：立勛詢問時才工作','週六 23:30 交週報']},
+'Athena智慧工藝女神':{role:'創意設計',duty:['封面、草稿、已交付作品資料夾','色票與分鏡'],now:['依方案：立勛詢問時才工作','週六 23:30 交週報']},
 'Sandy外語老師':{role:'外語老師',duty:['每週一、三、五課程','單字表＋每日閱讀'],now:['下一次：週一課程']},
 };
 // on-screen project displays
@@ -149,7 +149,7 @@ const DECOR={
  'Wendy醫學院教授':[['節氣茶席',['teapot','candle','bonsai']],['草本藥櫃',['terrarium','books','mug']],['禪意療癒',['crystal','candle','hourglass']],['晨間瑜伽',['bonsai','duck','lamp']]],
  'Green動植物學家':[['迷你雨林',['terrarium','cactus','bonsai']],['顯微觀察',['microscope','terrarium','books']],['沙漠多肉',['cactus','cactus','hourglass']],['苔蘚盆景',['bonsai','terrarium','candle']]],
  'Johnny旅遊規劃師':[['環遊世界',['globe','plane','compass']],['背包客',['camera','compass','mug']],['機場候機',['plane','hourglass','books']],['探險家',['dino','globe','camera']]],
- 'Creative':[['畫室日常',['palette','lamp','cube']],['潮玩收藏',['duck','dino','crystal']],['攝影暗房',['camera','vinyl','candle']],['雕塑工作坊',['statue','palette','hourglass']]],
+ 'Athena智慧工藝女神':[['畫室日常',['palette','lamp','cube']],['潮玩收藏',['duck','dino','crystal']],['攝影暗房',['camera','vinyl','candle']],['雕塑工作坊',['statue','palette','hourglass']]],
  'Sandy外語老師':[['多語書牆',['books','globe','mug']],['英倫下午茶',['teapot','books','candle']],['單字魔方',['cube','hourglass','lamp']],['世界郵票',['compass','plane','books']]],
 };
 const DESKPOS={};for(const d of DESKS)DESKPOS[d.name]=d.pos;
@@ -187,7 +187,7 @@ window.setView=setView;window.stopWalk=()=>{walking=false};
 function lineup(){walking=false;S.traverse(o=>{if(o.isSprite&&!(window.__people||[]).some(p=>p.face===o||p.tag===o))o.visible=false});window.__lineup&&window.__lineup()}
 const AL={overview:'總覽',finance:'財經區',wellness:'健康綠色區',travel:'旅遊區',creative:'創意語言區',chief:'CEO室',boss:'老闆辦公室',closeup:'人物特寫'};let h0=decodeURIComponent(location.hash.slice(1));h0=AL[h0]||h0;if(!views[h0])h0='總覽';setView(h0||'總覽');{const cq=new URLSearchParams(location.search).get('cam');if(cq){const v=cq.split(',').map(Number);C.position.set(v[0],v[1],v[2]);O.target.set(v[3],v[4],v[5]);O.update()}}
 
-{const MV={'看螢幕：老闆':[2,-.8],'CEO':[-2,-.8],'Golden':[-8,-5],'Tesla':[-12.5,-3.2],'台歐情報':[-6,-8.6],'Wendy':[7.5,-3],'Green':[11,-9.2],'Johnny':[6.5,7.5],'Creative':[-6,2.6,1.35],'Sandy':[-6.5,8.4]};
+{const MV={'看螢幕：老闆':[2,-.8],'CEO':[-2,-.8],'Golden':[-8,-5],'Tesla':[-12.5,-3.2],'台歐情報':[-6,-8.6],'Wendy':[7.5,-3],'Green':[11,-9.2],'Johnny':[6.5,7.5],'Athena':[-6,2.6,1.35],'Sandy':[-6.5,8.4]};
 const row=document.createElement('div');row.style.marginTop='4px';vd.appendChild(row);
 for(const k in MV){const [x,z,dz=1.75]=MV[k];const b=document.createElement('button');b.textContent=k;b.onclick=()=>{walking=false;C.fov=45;C.updateProjectionMatrix();C.position.set(x+.3,1.8,z+dz);O.target.set(x,1.15,z-.3);O.update()};row.appendChild(b)}}
 
@@ -215,7 +215,7 @@ const people=[
  {n:'Wendy醫學院教授',f:1,img:'wendy',ftint:0xd8f2dc,tint:0xa8dcb5,seat:SEAT(7.5,-3),way:[[-1.8,7.2]]},
  {n:'Green動植物學家',f:0,img:'green',hair:0x4a2a14,beard:1,pants:0x5b4a36,tint:0x5f7d45,seat:SEAT(11,-9.2),way:[[13.6,-9.3]]},
  {n:'Johnny旅遊規劃師',f:0,img:'johnny',hat:1,tint:0x8a8f5a,seat:SEAT(6.5,7.5),way:[[14.6,6],[2.6,7.6]]},
- {n:'Creative',f:1,img:'creative',ftint:0xffd1c2,tint:0xff7f5c,seat:SEAT(-6,2.6),way:[[-1.2,3.9]]},
+ {n:'Athena智慧工藝女神',f:1,img:'creative',ftint:0xffd1c2,tint:0xff7f5c,seat:SEAT(-6,2.6),way:[[-1.2,3.9]]},
  {n:'Sandy外語老師',f:1,img:'sandy',ftint:0xcfe6ea,tint:0x2f7f8f,seat:SEAT(-6.5,8.4),way:[[-11,9.6],[-0.5,3.6]]},
 ];
 for(const p of people){const base=MODELS[p.f?'w':(p.suit?'b':'m')];const m=SU.clone(base.scene);

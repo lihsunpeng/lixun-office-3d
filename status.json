@@ -4,7 +4,7 @@
  "agents":{
   "彭立勛（老闆）":{"status":"待命","task":"審閱兩專案 20 項升級"},
   "Grok Bot CEO":{"status":"執行","task":"實作建築島＋3D辦公室 20 項升級"},
-  "Creative":{"status":"研究","task":"參考作品研究與設計建議"},
+  "Athena智慧工藝女神":{"status":"研究","task":"參考作品研究與設計建議"},
   "Golden股票投資顧問":{"status":"待命","task":"每日 07:00 晨報資料"},
   "Tesla SpaceX（電動車）":{"status":"待命","task":"立勛詢問時才工作"},
   "台歐情報":{"status":"待命","task":"下一份：週一週報"},
@@ -13,7 +13,7 @@
   "Johnny旅遊規劃師":{"status":"待命","task":"立勛詢問時才工作"},
   "Sandy外語老師":{"status":"待命","task":"下一次：週一課程"}
  },
- "meeting":["Grok Bot CEO","Creative"],
+ "meeting":["Grok Bot CEO","Athena智慧工藝女神"],
  "achievements":[
   {"id":"office-v10","date":"2026-11-07","who":"Grok Bot CEO","title":"3D 辦公室 v10：10 項升級上線","done":true,"link":"https://lihsunpeng.github.io/lixun-office-3d/"},
   {"id":"island","date":"2026-11","who":"Grok Bot CEO","title":"台北人文建築散步島（含 11 種樂高船）","done":true,"link":"https://lihsunpeng.github.io/taipei-arch-island/"},
