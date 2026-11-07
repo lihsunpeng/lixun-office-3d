@@ -207,7 +207,7 @@ const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:tex}));sp.scale.set(.42,
 const IMGS={};await Promise.all(['boss','grokbot','golden','tesla','taibobo','wendy','green','johnny','creative','sandy'].map(k=>new Promise(r=>{const i=new Image();i.onload=r;i.onerror=r;i.src='assets/p_'+k+'.jpg?v=11';IMGS['assets/p_'+k+'.jpg']=i})));
 const SEAT=(x,z)=>[x,z+.75];
 const people=[
- {n:'彭立勛（老闆）',f:0,img:'boss',suit:1,hair:0x2a2a2a,tint:0x4a4a52,seat:SEAT(2,-.8),way:[[2,1.6],[0,-4.2],[-2,1.2]]},
+ {n:'彭立勛（老闆）',f:0,img:'boss',boss:1,hair:0x2a2a2a,tint:0x4a4a52,seat:SEAT(2,-.8),way:[[2,1.6],[0,-4.2],[-2,1.2]]},
  {n:'Grok Bot CEO',f:0,img:'grokbot',suit:1,tint:0x1b1b24,seat:SEAT(-2,-.8),way:[[-1.5,4.2],[0,-4.4],[-6,4.2]]},
  {n:'Golden股票投資顧問',f:0,img:'golden',suit:1,hair:0x2a1b10,tint:0x1d3557,seat:SEAT(-8,-5),way:[[-12.9,-7.4]]},
  {n:'Tesla SpaceX（電動車）',f:0,img:'tesla',hair:0x4a2e1a,beard:1,tint:0x202020,seat:SEAT(-12.5,-3.2),way:[[-9,-1.2]]},
@@ -228,7 +228,24 @@ for(const p of people){const base=MODELS[p.f?'w':(p.suit?'b':'m')];const m=SU.cl
  const tag=label(p.n,0,0,0,p.n.startsWith('彭')?'#ffe08aee':'#ffffffee',22);tag.scale.multiplyScalar(.5);
  Object.assign(p,{g,m,mix,aI,aW,head,face,tag,neck:B('Neck'),bones:{lu:B('LeftUpLeg'),ru:B('RightUpLeg'),ll:B('LeftLeg'),rl:B('RightLeg'),la:B('LeftArm'),ra:B('RightArm'),lf:B('LeftForeArm'),rf:B('RightForeArm'),sp:B('Spine')},
   route:[p.seat,...p.way],seg:0,state:'sit',wait:1+Math.random()*5,t:Math.random()*9});
- g.position.set(p.seat[0],0,p.seat[1]);g.rotation.y=Math.PI;}
+ g.position.set(p.seat[0],0,p.seat[1]);g.rotation.y=Math.PI;
+ if(p.boss){g.scale.set(.93,1.04,.93);
+  m.traverse(o=>{if(o.isMesh){const mt=o.material;mt.color=new THREE.Color(0xffffff);o.geometry.computeBoundingBox();const bb=o.geometry.boundingBox;
+   mt.onBeforeCompile=sh=>{sh.uniforms.bMin={value:bb.min};sh.uniforms.bMax={value:bb.max};
+    sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\nvarying vec3 vOb;').replace('#include <begin_vertex>','#include <begin_vertex>\nvOb=position;');
+    sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nvarying vec3 vOb;uniform vec3 bMin;uniform vec3 bMax;').replace('#include <map_fragment>',`#include <map_fragment>
+     {vec3 sz=bMax-bMin;float h=(vOb.y-bMin.y)/sz.y;float rx=abs(vOb.x-(bMin.x+bMax.x)*.5)/(sz.x*.5);
+      if(h<.045)diffuseColor.rgb=vec3(.36,.2,.1);
+      else if(h<.5)diffuseColor.rgb=vec3(.1,.13,.27);
+      else if(h>.72&&h<.86&&rx>.5&&rx<.88)diffuseColor.rgb=vec3(.82,.62,.48);
+      else if(h<.83&&rx<.5){float n=fract(sin(dot(floor(vOb.xy*vec2(60.,60.)),vec2(12.9,78.2)))*43758.5);diffuseColor.rgb=mix(vec3(.55,.55,.18),vec3(.36,.3,.12),step(.6,n));}}`)};mt.needsUpdate=true}});
+  const RP=M(0xc0455a),acc=new THREE.Group();acc.scale.setScalar(.8);S.add(acc);p.acc=acc;
+  const brim=new THREE.Mesh(new THREE.CylinderGeometry(.17,.17,.015,24),RP);acc.add(brim);const crown=new THREE.Mesh(new THREE.CylinderGeometry(.095,.11,.11,20),RP);crown.position.y=.06;acc.add(crown);
+  const band=new THREE.Mesh(new THREE.CylinderGeometry(.111,.111,.025,20),M(0x5a1a24));band.position.y=.02;acc.add(band);
+  const gl=new THREE.Group();acc.add(gl);for(const x of[-.045,.045]){const f=new THREE.Mesh(new THREE.BoxGeometry(.06,.032,.008),M(0x111111));f.position.set(x,-.1,.115);gl.add(f)}
+  const bag=new THREE.Group();g.add(bag);const bx=new THREE.Mesh(new THREE.BoxGeometry(.24,.2,.07),M(0x151515));bx.position.set(-.22,.98,.06);bag.add(bx);
+  const st=new THREE.Mesh(new THREE.BoxGeometry(.035,.85,.012),M(0x151515));st.position.set(-.02,1.3,.12);st.rotation.z=-.62;bag.add(st);p.bag=bag}
+ }
 window.__people=people;const Q=new URLSearchParams(location.search);window.SIT={y:+(Q.get('sy')??-0.27),u:+(Q.get('su')??1.5),l:+(Q.get('sl')??-1.5),f:+(Q.get('sf')??-1.2)};const SIT=window.SIT;window.ARM={x:+(Q.get('ax')??1.1),z:+(Q.get('az')??0)};const ARM=window.ARM;
 const v3=new THREE.Vector3();
 function setWalk(p,on){if(on){p.aW.reset().play()}else{p.aW.stop()}}
@@ -240,7 +257,7 @@ window.__tick=(dt)=>{for(const p of people){p.t+=dt;p.mix.update(dt);
  const b=p.bones;p.g.position.y=0;if(p.state==='sit'){b.la&&(b.la.rotation.z=ARM.z,b.la.rotation.x=ARM.x);b.ra&&(b.ra.rotation.z=-ARM.z,b.ra.rotation.x=ARM.x)}
  if(p.state==='sit'){p.g.position.y=SIT.y;for(const k of['lu','ru'])b[k]&&(b[k].rotation.x=SIT.u);for(const k of['ll','rl'])b[k]&&(b[k].rotation.x=SIT.l);
   const ty=(window.__typing?window.__typing(p.n):1)*Math.sin(p.t*14)*.06;b.lf&&(b.lf.rotation.x=SIT.f+ty);b.rf&&(b.rf.rotation.x=SIT.f-ty)}
- const hb=p.head||p.neck;hb.getWorldPosition(v3);p.face.position.set(v3.x,v3.y+.55,v3.z);p.tag.position.set(v3.x,v3.y+.85+(p.lineupOff||0),v3.z);p.face.position.y+= (p.lineupOff||0)}};
+ const hb=p.head||p.neck;hb.getWorldPosition(v3);p.face.position.set(v3.x,v3.y+.55,v3.z);if(p.acc){p.acc.position.set(v3.x,v3.y+.13,v3.z);p.acc.rotation.y=p.g.rotation.y}p.tag.position.set(v3.x,v3.y+.85+(p.lineupOff||0),v3.z);p.face.position.y+= (p.lineupOff||0)}};
 window.__lineup=()=>{people.forEach((p,i)=>{p.state='hold';setWalk(p,false);p.g.position.set(-4.5+i*1,0,4.2);p.g.rotation.y=0;p.lineupOff=i%2?0:.32})};
 
 
