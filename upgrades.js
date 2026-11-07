@@ -124,7 +124,7 @@ const clk=new THREE.Clock();let acc=0;
  if(Math.abs(vx)+Math.abs(vz)>.05){tgt=null;const f=new THREE.Vector3();C.getWorldDirection(f);f.y=0;f.normalize();const r=new THREE.Vector3(-f.z,0,f.x);const mv=r.multiplyScalar(vx).add(f.multiplyScalar(-vz)).multiplyScalar(dt*3);me.position.add(mv)}
  else if(tgt){const dx=tgt[0]-me.position.x,dz=tgt[1]-me.position.z,d=Math.hypot(dx,dz);if(d<.1)tgt=null;else{const s=Math.min(d,dt*3);me.position.x+=dx/d*s;me.position.z+=dz/d*s;me.rotation.y=Math.atan2(dx,dz)}}
  me.position.x=Math.max(-15.5,Math.min(15.5,me.position.x));me.position.z=Math.max(-10.5,Math.min(10.5,me.position.z));
- for(const p of people){p.stl.position.copy(p.face.position);p.stl.position.y-=.42}
+ for(const p of people){if(p.boss){p.stl.position.copy(p.tag.position);p.stl.position.y+=.22}else{p.stl.position.copy(p.face.position);p.stl.position.y-=.42}}
  if(acc>.5){acc=0;upBubble();let b=null,bd=1.6;for(const p of people){const d=Math.hypot(p.g.position.x-me.position.x,p.g.position.z-me.position.z);if(d<bd){bd=d;b=p}}
   if(b&&b!==nearShown){nearShown=b;helpPop(b)}if(!b)nearShown=null}})();
 upBubble();window.__up10=true;

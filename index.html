@@ -207,7 +207,7 @@ const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:tex}));sp.scale.set(.42,
 const IMGS={};await Promise.all(['boss','grokbot','golden','tesla','taibobo','wendy','green','johnny','creative','sandy'].map(k=>new Promise(r=>{const i=new Image();i.onload=r;i.onerror=r;i.src='assets/p_'+k+'.jpg?v=11';IMGS['assets/p_'+k+'.jpg']=i})));
 const SEAT=(x,z)=>[x,z+.75];
 const people=[
- {n:'彭立勛（老闆）',f:0,img:'boss',boss:1,hair:0x2a2a2a,tint:0x4a4a52,seat:SEAT(2,-.8),way:[[2,1.6],[0,-4.2],[-2,1.2]]},
+ {n:'彭立勛（老闆）',f:0,img:'boss',boss:1,suit:1,hair:0x2a2a2a,tint:0x4a4a52,seat:SEAT(2,-.8),way:[[2,1.6],[0,-4.2],[-2,1.2]]},
  {n:'Grok Bot CEO',f:0,img:'grokbot',suit:1,tint:0x1b1b24,seat:SEAT(-2,-.8),way:[[-1.5,4.2],[0,-4.4],[-6,4.2]]},
  {n:'Golden股票投資顧問',f:0,img:'golden',suit:1,hair:0x2a1b10,tint:0x1d3557,seat:SEAT(-8,-5),way:[[-12.9,-7.4]]},
  {n:'Tesla SpaceX（電動車）',f:0,img:'tesla',hair:0x4a2e1a,beard:1,tint:0x202020,seat:SEAT(-12.5,-3.2),way:[[-9,-1.2]]},
@@ -229,40 +229,10 @@ for(const p of people){const base=MODELS[p.f?'w':(p.suit?'b':'m')];const m=SU.cl
  Object.assign(p,{g,m,mix,aI,aW,head,face,tag,neck:B('Neck'),bones:{lu:B('LeftUpLeg'),ru:B('RightUpLeg'),ll:B('LeftLeg'),rl:B('RightLeg'),la:B('LeftArm'),ra:B('RightArm'),lf:B('LeftForeArm'),rf:B('RightForeArm'),sp:B('Spine')},
   route:[p.seat,...p.way],seg:0,state:'sit',wait:1+Math.random()*5,t:Math.random()*9});
  g.position.set(p.seat[0],0,p.seat[1]);g.rotation.y=Math.PI;
- if(p.boss){m.traverse(o=>{if(o.isMesh)o.visible=false});
-  const cvT=(w,h,f)=>{const c=document.createElement('canvas');c.width=w;c.height=h;f(c.getContext('2d'));const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;t.wrapS=t.wrapT=THREE.RepeatWrapping;return t};
-  const shirtT=cvT(256,256,x=>{x.fillStyle='#c2bb48';x.fillRect(0,0,256,256);for(let i=0;i<64;i++){const a=(i%8)*32+(Math.floor(i/8)%2)*16,b=Math.floor(i/8)*32;x.fillStyle=['#7a5a2a','#efe2b0','#8a9a30','#5a4a22'][i%4];
-    if(i%3){x.beginPath();x.ellipse(a+10,b+14,7,5,0,0,7);x.fill();x.fillRect(a+4,b+17,2,5);x.fillRect(a+14,b+17,2,5);x.fillRect(a+2,b+11,3,6)}else{x.beginPath();x.moveTo(a+10,b+4);x.lineTo(a+3,b+20);x.lineTo(a+17,b+20);x.fill();x.fillRect(a+9,b+20,2,5)}}});
-  shirtT.repeat.set(2,2);
-  const plaidT=cvT(128,128,x=>{x.fillStyle='#c4475d';x.fillRect(0,0,128,128);x.globalAlpha=.45;x.fillStyle='#7a1f33';for(let i=0;i<128;i+=16){x.fillRect(i,0,4,128);x.fillRect(0,i,128,4)}x.fillStyle='#f09aa8';for(let i=8;i<128;i+=16){x.fillRect(i,0,1,128);x.fillRect(0,i,128,1)}});plaidT.repeat.set(3,1);
-  const MS=c=>new THREE.MeshStandardMaterial({color:c,roughness:.75});
-  const SK=MS(0xf2c9a6),SH=new THREE.MeshStandardMaterial({map:shirtT,roughness:.8,emissive:0x2a2a08}),NV=MS(0x1c2a4a),BR=MS(0x6b3a1f),BK=MS(0x111111),PL=new THREE.MeshStandardMaterial({map:plaidT,roughness:.8});
-  const cyl=(r1,r2,mat)=>{const k=new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,1,14),mat);k.castShadow=true;S.add(k);return k};
-  const segs=[],up=new THREE.Vector3(0,1,0),va=new THREE.Vector3(),vb=new THREE.Vector3();
-  const seg=(a,b,mesh,t0=0,t1=1)=>{if(B(a)&&B(b))segs.push({a:B(a),b:B(b),mesh,t0,t1})};
-  seg('Hips','neck',new THREE.Mesh(new THREE.BoxGeometry(.34,1,.2),SH));S.add(segs.at(-1).mesh);
-  seg('neck','Head',cyl(.05,.055,SK),0,.7);
-  for(const L of['Left','Right']){seg(L+'Arm',L+'ForeArm',cyl(.068,.06,SH),-.1,.55);seg(L+'Arm',L+'ForeArm',cyl(.042,.04,SK),.5,1);seg(L+'ForeArm',L+'Hand',cyl(.04,.032,SK));seg(L+'Hand',L+'HandMiddle1',cyl(.035,.03,SK),0,1.6);
-   seg(L+'UpLeg',L+'Leg',cyl(.078,.065,NV),-.05,1.02);seg(L+'Leg',L+'Foot',cyl(.064,.058,NV));seg(L+'Foot',L+'ToeBase',new THREE.Mesh(new THREE.BoxGeometry(.1,1,.07),BR),-.35,1.5);S.add(segs.at(-1).mesh)}
-  seg('Spine02','neck',cyl(.1,.07,SH),.75,1.05); // collar
-  const head=new THREE.Group();S.add(head);const hs=new THREE.Mesh(new THREE.SphereGeometry(.105,20,16),SK);hs.scale.set(.92,1.12,1);head.add(hs);
-  const hair=new THREE.Mesh(new THREE.SphereGeometry(.108,20,12,0,7,0,1.3),MS(0x1a1a1a));hair.position.y=.02;head.add(hair);
-  for(const x of[-.043,.043]){const f=new THREE.Mesh(new THREE.TorusGeometry(.024,.006,6,4),BK);f.rotation.z=Math.PI/4;f.scale.set(1.3,.9,1);f.position.set(x,.015,.1);head.add(f)}
-  {const br=new THREE.Mesh(new THREE.BoxGeometry(.03,.006,.006),BK);br.position.set(0,.02,.105);head.add(br)}
-  const hat=new THREE.Group();hat.position.y=.085;hat.rotation.x=.08;head.add(hat);
-  const brim=new THREE.Mesh(new THREE.CylinderGeometry(.13,.13,.008,28),PL);brim.scale.set(1,1,1.08);hat.add(brim);
-  {const b2=new THREE.Mesh(new THREE.CylinderGeometry(.128,.12,.01,28,1,true),PL);b2.position.set(0,.006,-.03);b2.rotation.x=-.25;hat.add(b2)}
-  const crown=new THREE.Mesh(new THREE.CylinderGeometry(.068,.092,.085,20),PL);crown.position.y=.045;crown.scale.z=.85;hat.add(crown);
-  const pinch=new THREE.Mesh(new THREE.BoxGeometry(.1,.012,.02),MS(0x8a2a3a));pinch.position.set(0,.088,0);hat.add(pinch);
-  const band=new THREE.Mesh(new THREE.CylinderGeometry(.093,.093,.018,20),MS(0x3a1a20));band.position.y=.012;band.scale.z=.85;hat.add(band);
-  const strap=cyl(.012,.012,BK),bag=new THREE.Mesh(new THREE.BoxGeometry(.2,.18,.06),BK);S.add(bag);
-  p.bossUpd=()=>{for(const q of segs){q.a.getWorldPosition(va);q.b.getWorldPosition(vb);const d=vb.clone().sub(va),L=d.length();const s0=va.clone().addScaledVector(d,q.t0),s1=va.clone().addScaledVector(d,q.t1);
-    q.mesh.position.copy(s0).add(s1).multiplyScalar(.5);q.mesh.scale.y=L*(q.t1-q.t0);q.mesh.quaternion.setFromUnitVectors(up,d.normalize());if(q.mesh.geometry.type==='BoxGeometry'){const yq=new THREE.Quaternion().setFromAxisAngle(up,p.g.rotation.y);q.mesh.quaternion.premultiply(new THREE.Quaternion());}}
-   const hb=B('Head'),he=B('head_end');hb.getWorldPosition(va);he.getWorldPosition(vb);head.position.copy(va).lerp(vb,.1);head.rotation.set(0,p.g.rotation.y,0);
-   const ls=B('LeftShoulder')||B('LeftArm'),rh=B('RightUpLeg');ls.getWorldPosition(va);rh.getWorldPosition(vb);const fw=new THREE.Vector3(Math.sin(p.g.rotation.y),0,Math.cos(p.g.rotation.y));
-   va.addScaledVector(fw,.11);vb.addScaledVector(fw,.1);vb.y+=.05;const dd=vb.clone().sub(va);strap.position.copy(va).add(vb).multiplyScalar(.5);strap.scale.y=dd.length();strap.quaternion.setFromUnitVectors(up,dd.normalize());
-   const rgt=new THREE.Vector3(fw.z,0,-fw.x);bag.position.copy(vb).addScaledVector(rgt,-.06).addScaledVector(fw,.0);bag.position.y-=.06;bag.rotation.set(0,p.g.rotation.y,0)};
- }
+ if(p.boss){m.traverse(o=>{if(o.isMesh)o.visible=false});face.visible=false;
+  const tx=new THREE.TextureLoader().load('assets/boss_standee.png?v=13');tx.colorSpace=THREE.SRGBColorSpace;
+  const sd=new THREE.Sprite(new THREE.SpriteMaterial({map:tx,transparent:true,alphaTest:.1}));sd.center.set(.5,0);sd.scale.set(1.78*426/1214,1.78,1);S.add(sd);
+  p.bossUpd=()=>{sd.position.set(p.g.position.x,(p.state==='walk'?Math.abs(Math.sin(p.t*7))*.03:0),p.g.position.z+(p.state==='sit'?-.25:0))};}
  }
 window.__people=people;const Q=new URLSearchParams(location.search);window.SIT={y:+(Q.get('sy')??-0.27),u:+(Q.get('su')??1.5),l:+(Q.get('sl')??-1.5),f:+(Q.get('sf')??-1.2)};const SIT=window.SIT;window.ARM={x:+(Q.get('ax')??1.1),z:+(Q.get('az')??0)};const ARM=window.ARM;
 const v3=new THREE.Vector3();
@@ -275,7 +245,7 @@ window.__tick=(dt)=>{for(const p of people){p.t+=dt;p.mix.update(dt);
  const b=p.bones;p.g.position.y=0;if(p.state==='sit'){b.la&&(b.la.rotation.z=ARM.z,b.la.rotation.x=ARM.x);b.ra&&(b.ra.rotation.z=-ARM.z,b.ra.rotation.x=ARM.x)}
  if(p.state==='sit'){p.g.position.y=SIT.y;for(const k of['lu','ru'])b[k]&&(b[k].rotation.x=SIT.u);for(const k of['ll','rl'])b[k]&&(b[k].rotation.x=SIT.l);
   const ty=(window.__typing?window.__typing(p.n):1)*Math.sin(p.t*14)*.06;b.lf&&(b.lf.rotation.x=SIT.f+ty);b.rf&&(b.rf.rotation.x=SIT.f-ty)}
- const hb=p.head||p.neck;hb.getWorldPosition(v3);p.face.position.set(v3.x,v3.y+.55,v3.z);p.bossUpd&&p.bossUpd();p.tag.position.set(v3.x,v3.y+.85+(p.lineupOff||0),v3.z);p.face.position.y+= (p.lineupOff||0)}};
+ const hb=p.head||p.neck;hb.getWorldPosition(v3);p.face.position.set(v3.x,v3.y+.55,v3.z);p.bossUpd&&p.bossUpd();p.tag.position.set(p.boss?p.g.position.x:v3.x,p.boss?2.0:v3.y+.85+(p.lineupOff||0),v3.z);p.face.position.y+= (p.lineupOff||0)}};
 window.__lineup=()=>{people.forEach((p,i)=>{p.state='hold';setWalk(p,false);p.g.position.set(-4.5+i*1,0,4.2);p.g.rotation.y=0;p.lineupOff=i%2?0:.32})};
 
 
