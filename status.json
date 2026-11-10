@@ -1,26 +1,26 @@
 {
- "updated":"2026-11-07T07:30:00+08:00",
+ "updated":"2026-11-10T13:41:29+08:00",
  "note":"狀態由 Grok Bot 手動更新此檔；四種狀態：待命／研究／執行／異常",
  "agents":{
   "彭立勛（老闆）":{"status":"待命","task":"審閱兩專案 20 項升級"},
-  "Grok Bot CEO":{"status":"執行","task":"實作建築島＋3D辦公室 20 項升級"},
+  "Grok CEO":{"status":"執行","task":"實作建築島＋3D辦公室 20 項升級"},
   "Athena智慧工藝女神":{"status":"研究","task":"參考作品研究與設計建議"},
   "Golden股票投資顧問":{"status":"待命","task":"每日 07:00 晨報資料"},
-  "Tesla SpaceX（電動車）":{"status":"待命","task":"立勛詢問時才工作"},
-  "台歐情報":{"status":"待命","task":"下一份：週一週報"},
+  "Inno科技創新":{"status":"待命","task":"立勛詢問時才工作"},
+  "Europia台歐訊息":{"status":"待命","task":"下一份：週一週報"},
   "Wendy醫學院教授":{"status":"待命","task":"立勛詢問時才工作"},
   "Artemis(Diana)狩獵與自然女神":{"status":"待命","task":"立勛詢問時才工作"},
-  "Johnny旅遊規劃師":{"status":"待命","task":"立勛詢問時才工作"},
+  "Johnny導遊":{"status":"待命","task":"立勛詢問時才工作"},
   "Sandy外語老師":{"status":"待命","task":"下一次：週一課程"}
  },
- "meeting":["Grok Bot CEO","Athena智慧工藝女神"],
+ "meeting":["Grok CEO","Athena智慧工藝女神"],
  "achievements":[
-  {"id":"office-v10","date":"2026-11-07","who":"Grok Bot CEO","title":"3D 辦公室 v10：10 項升級上線","done":true,"link":"https://lihsunpeng.github.io/lixun-office-3d/"},
-  {"id":"island","date":"2026-11","who":"Grok Bot CEO","title":"台北人文建築散步島（含 11 種樂高船）","done":true,"link":"https://lihsunpeng.github.io/taipei-arch-island/"},
-  {"id":"office3d","date":"2026-11","who":"Grok Bot CEO","title":"立勛整合設計公司 3D 辦公室公開版","done":true,"link":"https://lihsunpeng.github.io/lixun-office-3d/"},
-  {"id":"sop-office","date":"2026-11","who":"Grok Bot CEO","title":"3D 辦公室製作流程 SOP（約 20 頁 PDF）","done":true},
-  {"id":"sop-island","date":"2026-11","who":"Grok Bot CEO","title":"建築散步島 SOP 初稿（約 20 頁 PDF）","done":true},
-  {"id":"shanhaitun","date":"2026-11-05","who":"Grok Bot CEO","title":"山海屯文化部輔導簡報（含 QR Code）定稿","done":true},
-  {"id":"univ-merch","date":"2026-11","who":"Grok Bot CEO","title":"外國名校高檔文創商品整理 PDF","done":true}
+  {"id":"office-v10","date":"2026-11-07","who":"Grok CEO","title":"3D 辦公室 v10：10 項升級上線","done":true,"link":"https://lihsunpeng.github.io/lixun-office-3d/"},
+  {"id":"island","date":"2026-11","who":"Grok CEO","title":"台北人文建築散步島（含 11 種樂高船）","done":true,"link":"https://lihsunpeng.github.io/taipei-arch-island/"},
+  {"id":"office3d","date":"2026-11","who":"Grok CEO","title":"立勛整合設計公司 3D 辦公室公開版","done":true,"link":"https://lihsunpeng.github.io/lixun-office-3d/"},
+  {"id":"sop-office","date":"2026-11","who":"Grok CEO","title":"3D 辦公室製作流程 SOP（約 20 頁 PDF）","done":true},
+  {"id":"sop-island","date":"2026-11","who":"Grok CEO","title":"建築散步島 SOP 初稿（約 20 頁 PDF）","done":true},
+  {"id":"shanhaitun","date":"2026-11-05","who":"Grok CEO","title":"山海屯文化部輔導簡報（含 QR Code）定稿","done":true},
+  {"id":"univ-merch","date":"2026-11","who":"Grok CEO","title":"外國名校高檔文創商品整理 PDF","done":true}
  ]
 }

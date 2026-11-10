@@ -87,7 +87,7 @@ function helpPop(p){const s=ST.agents[p.n]||{};const mine=ach.filter(a=>a.who===
  pan(`🙋 ${esc(p.n)}：我能幫你做什麼？`,`<p>狀態<span class="chip" style="background:${SCOL[stOf(p.n)]}">${stOf(p.n)}</span>${INTERNAL&&s.task?'　'+esc(s.task):''}</p>
  <button onclick="showTasks('${p.n}')">看我負責的項目</button> <button onclick="document.getElementById('b-ach').click()">看成果牆</button> <button onclick="document.getElementById('b-log').click()">看討論紀錄</button>
  ${mine.length?'<div style="margin-top:8px"><b>我的成果</b>'+mine.map(a=>'<div>• '+lk(a.link,a.title)+'</div>').join('')+'</div>':''}
- <p style="font-size:12px;color:#666">這裡只顯示資訊與連結，不會自動開始任何工作；要交辦請直接跟立勛的 Grok Bot 說。</p>`,'helpPan')}
+ <p style="font-size:12px;color:#666">這裡只顯示資訊與連結，不會自動開始任何工作；要交辦請直接跟立勛的 Grok CEO 說。</p>`,'helpPan')}
 // ---------- 8 編輯模式 ----------
 const LK='lx_layout_v1';let edit=false,drag=null;const lay=JSON.parse(localStorage.getItem(LK)||'{}');
 for(const d of DESKS){const v=lay[d.name];if(v&&d.g){d.g.position.x=v[0];d.g.position.z=v[1];d.g.rotation.y=v[2]}}
