@@ -187,7 +187,7 @@ window.setView=setView;window.stopWalk=()=>{walking=false};
 function lineup(){walking=false;S.traverse(o=>{if(o.isSprite&&!(window.__people||[]).some(p=>p.face===o||p.tag===o))o.visible=false});window.__lineup&&window.__lineup()}
 const AL={overview:'總覽',finance:'財經區',wellness:'健康綠色區',travel:'旅遊區',creative:'創意語言區',chief:'Grok CEO室',boss:'老闆辦公室',closeup:'人物特寫'};let h0=decodeURIComponent(location.hash.slice(1));h0=AL[h0]||h0;if(!views[h0])h0='總覽';setView(h0||'總覽');{const cq=new URLSearchParams(location.search).get('cam');if(cq){const v=cq.split(',').map(Number);C.position.set(v[0],v[1],v[2]);O.target.set(v[3],v[4],v[5]);O.update()}}
 
-{const MV={'看螢幕：老闆':[2,-.8],'Grok CEO':[-2,-.8],'Golden':[-8,-5],'Inno':[-12.5,-3.2],'Europia台歐訊息':[-6,-8.6],'Wendy':[7.5,-3],'Artemis':[11,-9.2],'Johnny':[6.5,7.5],'Athena':[-6,2.6,1.35],'Sandy':[-6.5,8.4]};
+{const MV={'看螢幕：老闆':[2,-.8],'Grok CEO':[-2,-.8],'Golden':[-8,-5],'Inno':[-12.5,-3.2],'Europia':[-6,-8.6],'Wendy':[7.5,-3],'Artemis':[11,-9.2],'Johnny':[6.5,7.5],'Athena':[-6,2.6,1.35],'Sandy':[-6.5,8.4]};
 const row=document.createElement('div');row.style.marginTop='4px';vd.appendChild(row);
 for(const k in MV){const [x,z,dz=1.75]=MV[k];const b=document.createElement('button');b.textContent=k;b.onclick=()=>{walking=false;C.fov=45;C.updateProjectionMatrix();C.position.set(x+.3,1.8,z+dz);O.target.set(x,1.15,z-.3);O.update()};row.appendChild(b)}}
 
@@ -204,7 +204,7 @@ const [gw,gb,gm]=await Promise.all([ldg('assets/g_woman.glb'),ldg('assets/g_busi
 const noPos=c=>{const k=c.clone();k.tracks=k.tracks.filter(t=>!t.name.endsWith('.position'));return k};
 function faceSprite(src,name){const cv=document.createElement('canvas');cv.width=cv.height=256;const g=cv.getContext('2d');const tex=new THREE.CanvasTexture(cv);const im=IMGS[src];{g.fillStyle='#fff';g.beginPath();g.arc(128,128,126,0,7);g.fill();g.save();g.beginPath();g.arc(128,128,118,0,7);g.clip();g.drawImage(im,im.width*.18,0,im.width*.64,im.height*.64,10,10,236,236);g.restore();tex.needsUpdate=true}
 const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:tex}));sp.scale.set(.42,.42,1);S.add(sp);return sp}
-const IMGS={};await Promise.all(['boss','grokbot','golden','tesla','taibobo','wendy','green','johnny','creative','sandy'].map(k=>new Promise(r=>{const i=new Image();i.onload=r;i.onerror=r;i.src='assets/p_'+k+'.jpg?v=17';IMGS['assets/p_'+k+'.jpg']=i})));
+const IMGS={};await Promise.all(['boss','grokbot','golden','tesla','taibobo','wendy','green','johnny','creative','sandy'].map(k=>new Promise(r=>{const i=new Image();i.onload=r;i.onerror=r;i.src='assets/p_'+k+'.jpg?v=18';IMGS['assets/p_'+k+'.jpg']=i})));
 const SEAT=(x,z)=>[x,z+.75];
 const people=[
  {n:'彭立勛（老闆）',f:0,img:'boss',boss:1,suit:1,hair:0x2a2a2a,tint:0x4a4a52,seat:SEAT(2,-.8),way:[[2,1.6],[0,-4.2],[-2,1.2]]},
@@ -251,11 +251,11 @@ window.__lineup=()=>{people.forEach((p,i)=>{p.state='hold';setWalk(p,false);p.g.
 
 const ray=new THREE.Raycaster(),mp=new THREE.Vector2();
 window.showTasks=(n)=>{const d=TASKS[n];if(!d)return;const p=people.find(x=>x.n===n);const el=document.getElementById('panel');
-el.innerHTML=`<div style="display:flex;gap:10px;align-items:center"><img src="assets/p_${p.img}.jpg?v=17" style="width:64px;height:64px;border-radius:50%;object-fit:cover"><div><b style="font-size:16px">${n}</b><br>${d.role}</div></div><div style="margin-top:8px"><b>負責項目</b><ul style="margin:4px 0 0 18px;padding:0">${d.duty.map(x=>'<li>'+x+'</li>').join('')}</ul></div><div style="margin-top:6px"><b>目前進行中</b><ul style="margin:4px 0 0 18px;padding:0">${d.now.map(x=>'<li>'+x+'</li>').join('')}</ul></div><div style="font-size:12px;color:#666;margin-top:6px">資料時間：2026-11-01（依立勛核准的用量方案）</div><button onclick="this.parentNode.style.display='none'" style="margin-top:6px">關閉</button>`;el.style.display='block'};
+el.innerHTML=`<div style="display:flex;gap:10px;align-items:center"><img src="assets/p_${p.img}.jpg?v=18" style="width:64px;height:64px;border-radius:50%;object-fit:cover"><div><b style="font-size:16px">${n}</b><br>${d.role}</div></div><div style="margin-top:8px"><b>負責項目</b><ul style="margin:4px 0 0 18px;padding:0">${d.duty.map(x=>'<li>'+x+'</li>').join('')}</ul></div><div style="margin-top:6px"><b>目前進行中</b><ul style="margin:4px 0 0 18px;padding:0">${d.now.map(x=>'<li>'+x+'</li>').join('')}</ul></div><div style="font-size:12px;color:#666;margin-top:6px">資料時間：2026-11-01（依立勛核准的用量方案）</div><button onclick="this.parentNode.style.display='none'" style="margin-top:6px">關閉</button>`;el.style.display='block'};
 R.domElement.addEventListener('click',e=>{mp.set(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1);ray.setFromCamera(mp,C);
  const objs=[];people.forEach(p=>{objs.push(p.face,p.tag);p.m.traverse(o=>{if(o.isMesh)objs.push(o)})});
  const h=ray.intersectObjects(objs,false)[0];if(!h)return;const p=people.find(q=>q.face===h.object||q.tag===h.object||(()=>{let f=false;q.m.traverse(o=>{if(o===h.object)f=true});return f})());if(p)showTasks(p.n)});
 const qs=new URLSearchParams(location.search).get('who');if(qs)setTimeout(()=>showTasks(qs),50);
 window.__ready=true;window.__early=false;{const m=document.getElementById('loadmsg');m&&m.remove()}(function loop(){requestAnimationFrame(loop);step(Math.min(clock.getDelta(),.25));if(window.__eowSpin)window.__eowSpin.rotation.z+=.02;O.update();R.render(S,C)})();
 });
-</script><script type="module" src="upgrades.js?v=17"></script></body></html>
+</script><script type="module" src="upgrades.js?v=18"></script></body></html>
