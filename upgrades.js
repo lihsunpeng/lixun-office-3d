@@ -44,7 +44,7 @@ const ach=ST.achievements||[];
 const HOT=[];
 function hot(name,x,y,z,w,h,d,fn,nl){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),new THREE.MeshBasicMaterial({visible:false}));m.position.set(x,y,z);m.userData={name,fn};S.add(m);HOT.push(m);if(nl)return;const l=label('👆 '+name,x,y+h/2+.35,z,'#e0f2feee',26);l.scale.multiplyScalar(.6)}
 const achHTML=()=>ach.map(a=>`<div style="padding:6px 0;border-bottom:1px solid #eee">${a.done?'✅':'⏳'} <b>${lk(a.link,a.title)}</b><br><small>${esc(a.date)}・${esc(a.who)}${a.link?'':'（檔案在 Grok Bot 電腦，非公開）'}</small></div>`).join('');
-hot('資料櫃・成果',2.1,1,10.5,4.2,2,.8,()=>pan('📂 線上資料區・專案成果',achHTML()));
+hot('資料櫃・成果',3.6,1,10.5,4.2,2,.8,()=>pan('📂 線上資料區・專案成果',achHTML()));
 hot('會議螢幕・專案',0,1.6,-10.5,4.5,1.6,.3,()=>pan('🖥️ 會議室大螢幕',`<p>正在討論：兩專案 20 項升級</p>${lk('https://lihsunpeng.github.io/taipei-arch-island/','台北人文建築散步島')}<br>${lk('https://lihsunpeng.github.io/lixun-office-3d/','3D 辦公室公開版')}`));
 hot('白板（可畫）',-2.9,1.5,-7.5,.3,1.1,2.1,()=>openWB());
 for(const d of DESKS){const [x,z]=d.pos;hot('螢幕',x,1.15,z-.3,1.4,.5,.2,()=>window.showTasks&&window.showTasks(d.name),1)}
