@@ -34,7 +34,8 @@ body{font-family:"Hiragino Maru Gothic ProN","Zen Maru Gothic","Noto Sans CJK TC
  #joy{width:96px;height:96px;bottom:calc(14px + var(--sab))!important}#joy i{left:28px;top:28px}
  #bar2{top:calc(52px + var(--sat))!important;bottom:auto!important;max-width:64vw}
  #panel{z-index:21;top:auto!important;right:auto!important;left:50%;transform:translateX(-50%);bottom:calc(10px + var(--sab));width:calc(100vw - 24px)!important;max-height:58dvh}
- .up-pan,#gardenPan,#helpPan{width:calc(100vw - 24px)!important}
+ .up-pan,#gardenPan,#helpPan{width:calc(100vw - 24px)!important;box-sizing:border-box}
+ #helpPan{top:auto!important;bottom:calc(122px + var(--sab))!important;left:12px!important;max-height:34dvh!important}
  #ui{max-width:calc(100vw - 24px)!important;top:calc(158px + var(--sat))!important;max-height:calc(100dvh - 158px - 76px - var(--sat) - var(--sab))!important}
  #kbtn{display:block}
 }`;
@@ -106,7 +107,7 @@ const MARK={x:11.6,z:3.2};
  const pot=new THREE.Mesh(new THREE.CylinderGeometry(.09,.07,.12,14),m('#F6925A'));pot.position.set(.65,.85,.15);g.add(pot);
  const leaf=new THREE.Mesh(new THREE.SphereGeometry(.12,14,10),m('#73CF58'));leaf.position.set(.65,1,.15);leaf.scale.y=.8;g.add(leaf);
  window.__markSeat=g}
-{const vd=document.getElementById('views');if(vd){const b=document.createElement('button');b.textContent='Mark 座位';b.onclick=()=>{if(window.stopWalk)window.stopWalk();C.fov=45;C.updateProjectionMatrix();C.position.set(MARK.x-1.2,3,MARK.z+5.4);O.target.set(MARK.x,.9,MARK.z);O.update()};vd.appendChild(b)}}
+{const vd=document.getElementById('views');if(vd){const b=document.createElement('button');b.textContent='Mark 座位';b.onclick=()=>{if(innerWidth<900){const u=document.getElementById('ui');if(u&&u.style.display!=='none')document.getElementById('kbtn')?.click()}if(window.stopWalk)window.stopWalk();C.fov=45;C.updateProjectionMatrix();C.position.set(MARK.x-1.2,3,MARK.z+5.4);O.target.set(MARK.x,.9,MARK.z);O.update()};vd.appendChild(b)}}
 
 /* ---------- 人物更自然生動：走路輕彈、待機呼吸、卡比眨眼 ---------- */
 const base=new Map();let t0=performance.now();
