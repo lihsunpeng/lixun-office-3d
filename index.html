@@ -1,5 +1,5 @@
 <!doctype html><html lang="zh-Hant"><head><link rel="icon" href="data:,"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta charset="utf-8"><title>立勛整合設計公司 3D 虛擬辦公室</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <style>body{margin:0;overflow:hidden;font-family:"Noto Sans CJK TC",sans-serif;background:#dfe6ea}
 #ui{position:fixed;top:10px;left:10px;background:#fffd;padding:10px 14px;border-radius:10px;font-size:14px;max-width:320px}
 #ui button{margin:2px;padding:4px 8px;border:1px solid #889;border-radius:6px;background:#fff;cursor:pointer}
@@ -8,7 +8,7 @@ h1{font-size:16px;margin:0 0 6px}</style>
 </head><body><div id="ui"><h1>立勛整合設計公司・虛擬辦公室</h1>
 <div>拖曳旋轉、滾輪縮放。視角：</div><div id="views"></div>
 <div style="font-size:12px;margin-top:4px">👉 點任何人物（身體或頭像）可看他負責的工作</div><div style="margin-top:6px"><button id="walk">▶ 走動／工作 動畫：開</button></div>
-<div style="font-size:12px;color:#555;margin-top:6px">老闆：彭立勛｜專員名單更新：2026-11-10｜2026-11-12 植栽與財位水族箱｜所有 Agent 僅在立勛詢問時工作；週六 23:30 交週報。</div></div>
+</div>
 <div id="panel" style="display:none;position:fixed;right:12px;top:12px;width:300px;background:#fffffff2;border-radius:12px;padding:14px;font-size:14px;box-shadow:0 4px 18px #0003"></div>
 <script type="module">
 import * as THREE from 'three';
@@ -266,11 +266,11 @@ window.__lineup=()=>{people.forEach((p,i)=>{p.state='hold';setWalk(p,false);p.g.
 
 const ray=new THREE.Raycaster(),mp=new THREE.Vector2();
 window.showTasks=(n)=>{const d=TASKS[n];if(!d)return;const p=people.find(x=>x.n===n);const el=document.getElementById('panel');
-el.innerHTML=`<div style="display:flex;gap:10px;align-items:center"><img src="assets/p_${p.img}.jpg?v=19" style="width:64px;height:64px;border-radius:50%;object-fit:cover"><div><b style="font-size:16px">${n}</b><br>${d.role}</div></div><div style="margin-top:8px"><b>負責項目</b><ul style="margin:4px 0 0 18px;padding:0">${d.duty.map(x=>'<li>'+x+'</li>').join('')}</ul></div><div style="margin-top:6px"><b>目前進行中</b><ul style="margin:4px 0 0 18px;padding:0">${d.now.map(x=>'<li>'+x+'</li>').join('')}</ul></div><div style="font-size:12px;color:#666;margin-top:6px">資料時間：2026-11-10（專員名單已更新）</div><button onclick="this.parentNode.style.display='none'" style="margin-top:6px">關閉</button>`;el.style.display='block'};
+el.innerHTML=`<div style="display:flex;gap:10px;align-items:center"><img src="assets/p_${p.img}.jpg?v=19" style="width:64px;height:64px;border-radius:50%;object-fit:cover"><div><b style="font-size:16px">${n}</b><br>${d.role}</div></div><div style="margin-top:8px"><b>負責項目</b><ul style="margin:4px 0 0 18px;padding:0">${d.duty.map(x=>'<li>'+x+'</li>').join('')}</ul></div><div style="margin-top:6px"><b>目前進行中</b><ul style="margin:4px 0 0 18px;padding:0">${d.now.map(x=>'<li>'+x+'</li>').join('')}</ul></div><button onclick="this.parentNode.style.display='none'" style="margin-top:6px">關閉</button>`;el.style.display='block'};
 R.domElement.addEventListener('click',e=>{mp.set(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1);ray.setFromCamera(mp,C);
  const objs=[];people.forEach(p=>{objs.push(p.face,p.tag);p.m.traverse(o=>{if(o.isMesh)objs.push(o)})});
  const h=ray.intersectObjects(objs,false)[0];if(!h)return;const p=people.find(q=>q.face===h.object||q.tag===h.object||(()=>{let f=false;q.m.traverse(o=>{if(o===h.object)f=true});return f})());if(p)showTasks(p.n)});
 const qs=new URLSearchParams(location.search).get('who');if(qs)setTimeout(()=>showTasks(qs),50);
 window.__ready=true;window.__early=false;{const m=document.getElementById('loadmsg');m&&m.remove()}(function loop(){requestAnimationFrame(loop);step(Math.min(clock.getDelta(),.25));if(window.__eowSpin)window.__eowSpin.rotation.z+=.02;O.update();R.render(S,C)})();
 });
-</script><script type="module" src="upgrades.js?v=20"></script><script type="module" src="garden.js?v=1112c"></script></body></html>
+</script><script type="module" src="upgrades.js?v=20"></script><script type="module" src="garden.js?v=1112c"></script><script type="module" src="kirby.js?v=20261120a"></script></body></html>

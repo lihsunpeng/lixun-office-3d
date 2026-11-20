@@ -71,7 +71,7 @@ function openLog(){pan('🗂️ 專員討論紀錄',LOG.sessions.map(s=>`<div><b
 // ---------- 10 慶祝 ----------
 function confetti(msg){const cv=document.createElement('canvas');cv.width=innerWidth;cv.height=innerHeight;cv.style.cssText='position:fixed;inset:0;z-index:30;pointer-events:none';document.body.appendChild(cv);const g=cv.getContext('2d');
  const P=Array.from({length:160},()=>({x:Math.random()*innerWidth,y:-20-Math.random()*innerHeight*.5,vx:(Math.random()-.5)*3,vy:2+Math.random()*3,c:`hsl(${Math.random()*360},90%,55%)`,r:Math.random()*6}));
- const m=document.createElement('div');m.textContent='🎉 '+msg;m.style.cssText='position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);z-index:31;background:#fff;border:3px solid #f0b400;border-radius:14px;padding:12px 20px;font:bold 20px sans-serif';document.body.appendChild(m);
+ const m=document.createElement('div');m.textContent='🎉 '+msg;m.style.cssText='position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);z-index:31;pointer-events:none;max-width:84vw;text-align:center;background:#FFF8FB;border:3px solid #F894BB;border-radius:22px;padding:12px 20px;color:#8a2f48;font:bold 20px sans-serif';document.body.appendChild(m);
  let t=0;(function f(){g.clearRect(0,0,cv.width,cv.height);P.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.r+=.1;g.fillStyle=p.c;g.save();g.translate(p.x,p.y);g.rotate(p.r);g.fillRect(-4,-2,8,5);g.restore()});if(++t<200)requestAnimationFrame(f);else{cv.remove();m.remove()}})()}
 window.__confetti=confetti;
 {const seen=JSON.parse(localStorage.getItem('lx_seen_done')||'[]');const nw=ach.filter(a=>a.done&&!seen.includes(a.id));
