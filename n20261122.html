@@ -74,7 +74,7 @@ const L=(t,x,z)=>label(t.split('｜')[1]||t,x,1.55,z-1.6,'#fffbe8dd',26);
 // Zone1
 desk({x:-8,z:-5,name:'Golden股票投資顧問',top:0x1f3b2d,mon:4,monC:0x14213d,extra:g=>{box(1.6,.9,.04,0xffffff,0,1.75,-.42,g)}});L('Golden｜多螢幕・四槍白板',-8,-4.3);
 desk({x:-12.5,z:-3.2,name:'Inno科技創新',top:0x1c1f2a,extra:g=>{sticker(-.6,.79,.2,0x111);sticker(-.4,.79,.2,0x14213d)}});L('Inno科技創新｜科技新聞＋創新',-12.5,-2.4);
-desk({x:-6,z:-8.6,name:'Europia台歐訊息',top:0xf4f8ff,monC:0xdfe9f5,extra:g=>{box(.2,.12,.01,0xffffff,.6,.79,.2,g);box(.2,.06,.012,0xdc143c,.6,.79,.21,g);box(.2,.12,.01,0x0033aa,.85,.79,.2,g)}});L('Europia台歐訊息｜波媒＋中文摘要',-6,-7.8);
+desk({x:-6,z:-8.6,name:'Europia台歐訊息',top:0xf4f8ff,monC:0xdfe9f5,extra:g=>{box(.2,.12,.01,0xffffff,.6,.79,.2,g);box(.2,.06,.012,0xdc143c,.6,.79,.21,g);box(.2,.12,.01,0x0033aa,.85,.79,.2,g)}});L('Europia台歐訊息｜台歐訊息',-6,-7.8);
 // Zone2
 desk({x:7.5,z:-3,name:'Wendy醫學院教授',top:0xd9f0d4});L('Wendy｜植物・柔光・節氣貼紙',7.5,-2.2);
 desk({x:11,z:-9.2,name:'Artemis(Diana)狩獵與自然女神',top:0x7fb77e,extra:g=>{box(.15,.4,.15,0xeeeeee,.6,.98,0,g);box(.15,.25,.08,0x2266aa,-.6,.9,0,g)}});box(.4,1.8,1.6,0x8a6a4a,14.8,.9,-10.15);for(let i=0;i<3;i++)box(.3,.25,.25,0x6b8e4e,14.7,.6+i*.5,-10.5+i*.3);L('Artemis｜顯微鏡・水質計・樹木標本',11,-8.4);
@@ -89,18 +89,7 @@ desk({x:-2,z:-.8,name:'Grok CEO',top:0x2f2f3a,mon:3});L('Grok CEO',-2,.2);desk({
 window.__T={THREE,S,C,R,O,DESKS,box,label,sun};if(innerWidth<900){R.shadowMap.enabled=false;sun.castShadow=false}
 // ===== Realistic avatars (GLTF skinned bodies + photo faces) =====
 import('three/addons/loaders/GLTFLoader.js').then(async ({GLTFLoader})=>{
-const TASKS={
-'彭立勛（老闆）':{role:'公司負責人・最終決策',duty:['審閱各 Agent 週六 23:30 週報','核准每週用量方案與停工／復工','交辦臨時任務給各專員'],now:['驗收 3D 辦公室公開版','要求螢幕顯示各專員專案']},
-'Grok CEO':{role:'CEO・統籌協調',duty:['每天 07:00 短版晨報','每週三 09:00 提醒回報用量','週六 23:30 收齊週報並彙整','分派與追蹤各 Agent 工作'],now:['3D 辦公室已上線 GitHub Pages','新增：每台螢幕顯示專案內容']},
-'Golden股票投資顧問':{role:'股票／投資分析',duty:['每天一份簡短股票報告＋扣款提醒','維護國泰世華／國泰證券持股快照（收盤價更新）','投資決策室：收盤、交易、銀行基準資料'],now:['待確認：鴻海成本價差異']},
-'Inno科技創新':{role:'科技創新',duty:['科技新聞與創新動態追蹤'],now:['依方案：立勛詢問時才工作','週六 23:30 交週報']},
-'Europia台歐訊息':{role:'波蘭／台灣資訊橋樑',duty:['每週一週報','波蘭媒體＋中文摘要','台波活動資料夾'],now:['下一份：週一週報']},
-'Wendy醫學院教授':{role:'養生／健康',duty:['草本、節氣養生資訊','健康相關提醒'],now:['依方案：立勛詢問時才工作','週六 23:30 交週報']},
-'Artemis(Diana)狩獵與自然女神':{role:'植物／環境',duty:['綠植照護資料夾','顯微鏡觀察、水質檢測、樹木標本'],now:['依方案：立勛詢問時才工作','週六 23:30 交週報']},
-'Johnny導遊':{role:'導遊',duty:['TripPlanning 行程時間軸','地圖與路線資料'],now:['依方案：立勛詢問時才工作','週六 23:30 交週報']},
-'Athena智慧工藝女神':{role:'創意設計',duty:['封面、草稿、已交付作品資料夾','色票與分鏡'],now:['依方案：立勛詢問時才工作','週六 23:30 交週報']},
-'Sandy外語老師':{role:'外語老師',duty:['每週一、三、五課程','單字表＋每日閱讀'],now:['下一次：週一課程']},
-};
+const TASKS={"彭立勛（老闆）": {"role": "公司負責人・最終決策", "duty": ["審閱與核准各專案", "核准每週用量方案與停工／復工", "交辦任務給各專員"], "now": ["審閱與核准各專案"]}, "Grok CEO": {"role": "CEO・統籌協調", "duty": ["承接任務、分派專員、協調工作與用量", "統籌台北島與 3D 辦公室"], "now": ["台北島 v50", "3D 辦公室 11/22 版已上線"]}, "Golden股票投資顧問": {"role": "股票／投資分析", "duty": ["股票與投資分析"], "now": ["股票資訊"]}, "Inno科技創新": {"role": "科技創新", "duty": ["科技新聞與創新動態追蹤"], "now": ["科技新聞與創新趨勢"]}, "Europia台歐訊息": {"role": "台歐訊息", "duty": ["台歐訊息", "每晚 22:00 克拉科夫受傷警察近況"], "now": ["台歐訊息", "每晚 22:00 克拉科夫受傷警察近況"]}, "Wendy醫學院教授": {"role": "醫學／健康", "duty": ["醫學與健康資訊"], "now": ["醫學與健康資訊"]}, "Artemis(Diana)狩獵與自然女神": {"role": "自然／植物", "duty": ["自然與植物資訊", "植栽競賽綠植顧問（只給照護建議，不打分）"], "now": ["自然與植物資訊"]}, "Johnny導遊": {"role": "導遊・旅遊規劃", "duty": ["TripPlanning 行程規劃", "整個旅程的 PDF"], "now": ["整個旅程的 PDF 更新版"]}, "Athena智慧工藝女神": {"role": "工藝女神", "duty": ["工藝／建築設計項目（如希臘柱式）"], "now": ["希臘三柱式 3D 檢視器 v3 已交付"]}, "Sandy外語老師": {"role": "外語老師", "duty": ["外語課程與單字整理"], "now": ["外語課程與單字整理"]}};
 // on-screen project displays
 function scrTex(title,sub,lines,col){const c=document.createElement('canvas');c.width=512;c.height=300;const x=c.getContext('2d');
 x.fillStyle='#0d1b2a';x.fillRect(0,0,512,300);x.fillStyle=col;x.fillRect(0,0,512,62);x.fillStyle='#fff';x.font='bold 40px sans-serif';x.fillText(title,14,46);
@@ -111,7 +100,7 @@ const COLS=['#1d4ed8','#047857','#b45309','#7c3aed'];
 for(const d of DESKS){const t=TASKS[d.name];if(!t)continue;const short=d.name.split('（')[0];
  const pages=[[short+'・進行中',t.role,t.now],[short+'・負責項目','每日／每週工作',t.duty]];
  if(d.scr.length>2){pages.push([short+'・負責 2/2','續',t.duty.slice(2).concat(t.now)]);}
- if(d.scr.length>3)pages.push([short+'・狀態','週報',['週六 23:30 交週報','有問題即時回報CEO']]);
+ if(d.scr.length>3)pages.push([short+'・狀態','回報',['有問題即時回報 Grok CEO']]);
  if(d.scr.length===1)pages[0]=[short+'・進行中',t.role,t.now.concat(t.duty)];
  d.scr.forEach((m,i)=>{const pg=pages[i%pages.length];m.material=scrTex(pg[0],pg[1],pg[2],COLS[i%4])});}
 // ===== 每週桌面擺設（依個性與嗜好，每週一自動換） + 本週最佳員工 =====
@@ -273,4 +262,4 @@ R.domElement.addEventListener('click',e=>{mp.set(e.clientX/innerWidth*2-1,-(e.cl
 const qs=new URLSearchParams(location.search).get('who');if(qs)setTimeout(()=>showTasks(qs),50);
 window.__ready=true;window.__early=false;{const m=document.getElementById('loadmsg');m&&m.remove()}(function loop(){requestAnimationFrame(loop);step(Math.min(clock.getDelta(),.25));if(window.__eowSpin)window.__eowSpin.rotation.z+=.02;O.update();R.render(S,C)})();
 });
-</script><script type="module" src="upgrades.js?v=20261122"></script><script type="module" src="garden.js?v=1112c"></script><script type="module" src="kirby.js?v=20261122b"></script><script type="module" src="live.js?v=20261122"></script></body></html>
+</script><script type="module" src="upgrades.js?v=20261122"></script><script type="module" src="garden.js?v=1112c"></script><script type="module" src="kirby.js?v=20261122c"></script><script type="module" src="live.js?v=20261122c"></script></body></html>
