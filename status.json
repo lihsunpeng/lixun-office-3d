@@ -1,128 +1,172 @@
 {
-  "updated": "2026-11-12T07:50:00+08:00",
-  "note": "狀態由 Grok Bot 手動更新此檔；四種狀態：待命／研究／執行／異常",
-  "agents": {
-    "彭立勛（老闆）": {
-      "status": "待命",
-      "task": "審閱兩專案 20 項升級"
-    },
-    "Grok CEO": {
-      "status": "執行",
-      "task": "實作建築島＋3D辦公室 20 項升級"
-    },
-    "Athena智慧工藝女神": {
-      "status": "研究",
-      "task": "參考作品研究與設計建議"
-    },
-    "Golden股票投資顧問": {
-      "status": "待命",
-      "task": "每日 07:00 晨報資料"
-    },
-    "Inno科技創新": {
-      "status": "待命",
-      "task": "立勛詢問時才工作"
-    },
-    "Europia台歐訊息": {
-      "status": "待命",
-      "task": "下一份：週一週報"
-    },
-    "Wendy醫學院教授": {
-      "status": "待命",
-      "task": "立勛詢問時才工作"
-    },
-    "Artemis(Diana)狩獵與自然女神": {
-      "status": "待命",
-      "task": "立勛詢問時才工作"
-    },
-    "Johnny導遊": {
-      "status": "待命",
-      "task": "立勛詢問時才工作"
-    },
-    "Sandy外語老師": {
-      "status": "待命",
-      "task": "下一次：週一課程"
-    }
+ "updated": "2026-11-22T05:00:00+08:00",
+ "note": "狀態由 Grok CEO 手動更新此檔；狀態牌三種：工作中／待命／停工（每週用量超過 98% 時全員停工）。recent 只寫已知工作，不放數字。",
+ "agents": {
+  "彭立勛（老闆）": {
+   "status": "待命",
+   "task": "審閱與核准各專案",
+   "recent": [
+    "核准 3D 辦公室狀態牌與水族箱、植栽動畫（11/22）",
+    "確認現行三個專案：台北島、3D 辦公室、希臘柱頭"
+   ]
   },
-  "meeting": [
-    "Grok CEO",
-    "Athena智慧工藝女神"
-  ],
-  "achievements": [
-    {
-      "id": "office-plants-aq-20261112",
-      "date": "2026-11-12",
-      "who": "Grok CEO",
-      "title": "3D 辦公室：財位水族箱＋專屬植栽競賽",
-      "done": true,
-      "link": "https://lihsunpeng.github.io/lixun-office-3d/"
-    },
-    {
-      "id": "office-v10",
-      "date": "2026-11-07",
-      "who": "Grok CEO",
-      "title": "3D 辦公室 v10：10 項升級上線",
-      "done": true,
-      "link": "https://lihsunpeng.github.io/lixun-office-3d/"
-    },
-    {
-      "id": "island",
-      "date": "2026-11",
-      "who": "Grok CEO",
-      "title": "台北人文建築散步島（含 11 種樂高船）",
-      "done": true,
-      "link": "https://lihsunpeng.github.io/taipei-arch-island/"
-    },
-    {
-      "id": "office3d",
-      "date": "2026-11",
-      "who": "Grok CEO",
-      "title": "立勛整合設計公司 3D 辦公室公開版",
-      "done": true,
-      "link": "https://lihsunpeng.github.io/lixun-office-3d/"
-    },
-    {
-      "id": "sop-office",
-      "date": "2026-11",
-      "who": "Grok CEO",
-      "title": "3D 辦公室製作流程 SOP（約 20 頁 PDF）",
-      "done": true
-    },
-    {
-      "id": "sop-island",
-      "date": "2026-11",
-      "who": "Grok CEO",
-      "title": "建築散步島 SOP 初稿（約 20 頁 PDF）",
-      "done": true
-    },
-    {
-      "id": "shanhaitun",
-      "date": "2026-11-05",
-      "who": "Grok CEO",
-      "title": "山海屯文化部輔導簡報（含 QR Code）定稿",
-      "done": true
-    },
-    {
-      "id": "univ-merch",
-      "date": "2026-11",
-      "who": "Grok CEO",
-      "title": "外國名校高檔文創商品整理 PDF",
-      "done": true
-    }
-  ],
-  "plants": {
-    "defaultStage": "發芽",
-    "note": "成長階段：發芽／新葉／開花／茂盛。可由本檔 plants.stages 或網址 ?pstage= 控制。初始全部發芽。",
-    "stages": {
-      "彭立勛（老闆）": "發芽",
-      "Grok CEO": "發芽",
-      "Golden股票投資顧問": "發芽",
-      "Inno科技創新": "發芽",
-      "Europia台歐訊息": "發芽",
-      "Wendy醫學院教授": "發芽",
-      "Artemis(Diana)狩獵與自然女神": "發芽",
-      "Johnny導遊": "發芽",
-      "Athena智慧工藝女神": "發芽",
-      "Sandy外語老師": "發芽"
-    }
+  "Grok CEO": {
+   "status": "工作中",
+   "task": "台北島 v50＋3D 辦公室新功能",
+   "recent": [
+    "台北島 v50",
+    "3D 辦公室：專員狀態牌、水族箱與植栽動畫",
+    "統籌各專員工作與每週用量"
+   ]
+  },
+  "Athena智慧工藝女神": {
+   "status": "工作中",
+   "task": "希臘柱頭",
+   "recent": [
+    "希臘柱頭：三款肩上捲髮女子 A、B、C 等立勛挑選",
+    "選定後統一三種柱式風格，做成網頁或 PDF"
+   ]
+  },
+  "Golden股票投資顧問": {
+   "status": "待命",
+   "task": "股票資訊",
+   "recent": [
+    "股票報告與持股追蹤",
+    "立勛詢問時提供股票分析"
+   ]
+  },
+  "Inno科技創新": {
+   "status": "待命",
+   "task": "立勛詢問時才工作",
+   "recent": [
+    "科技新聞與創新趨勢（立勛詢問時）"
+   ]
+  },
+  "Europia台歐訊息": {
+   "status": "工作中",
+   "task": "台歐訊息＋22:00 克拉科夫",
+   "recent": [
+    "台歐訊息整理",
+    "22:00 克拉科夫"
+   ]
+  },
+  "Wendy醫學院教授": {
+   "status": "待命",
+   "task": "立勛詢問時才工作",
+   "recent": [
+    "醫學與健康資訊（立勛詢問時）"
+   ]
+  },
+  "Artemis(Diana)狩獵與自然女神": {
+   "status": "待命",
+   "task": "立勛詢問時才工作",
+   "recent": [
+    "自然與植物相關資訊（立勛詢問時）",
+    "植栽競賽綠植顧問（只提供照護建議，不打分）"
+   ]
+  },
+  "Johnny導遊": {
+   "status": "工作中",
+   "task": "整個旅程的 PDF 更新版",
+   "recent": [
+    "整個旅程的 PDF 更新版（不只里斯本）"
+   ]
+  },
+  "Sandy外語老師": {
+   "status": "待命",
+   "task": "外語課程",
+   "recent": [
+    "外語課程與單字整理"
+   ]
+  },
+  "Mark": {
+   "status": "待命",
+   "task": "職務待立勛指定",
+   "recent": [
+    "座位已設好，職務、頭像待立勛指定"
+   ]
   }
+ },
+ "meeting": [
+  "Grok CEO",
+  "Athena智慧工藝女神"
+ ],
+ "achievements": [
+  {
+   "id": "office-plants-aq-20261112",
+   "date": "2026-11-12",
+   "who": "Grok CEO",
+   "title": "3D 辦公室：財位水族箱＋專屬植栽競賽",
+   "done": true,
+   "link": "https://lihsunpeng.github.io/lixun-office-3d/"
+  },
+  {
+   "id": "office-v10",
+   "date": "2026-11-07",
+   "who": "Grok CEO",
+   "title": "3D 辦公室 v10：10 項升級上線",
+   "done": true,
+   "link": "https://lihsunpeng.github.io/lixun-office-3d/"
+  },
+  {
+   "id": "island",
+   "date": "2026-11",
+   "who": "Grok CEO",
+   "title": "台北人文建築散步島（含 11 種樂高船）",
+   "done": true,
+   "link": "https://lihsunpeng.github.io/taipei-arch-island/"
+  },
+  {
+   "id": "office3d",
+   "date": "2026-11",
+   "who": "Grok CEO",
+   "title": "立勛整合設計公司 3D 辦公室公開版",
+   "done": true,
+   "link": "https://lihsunpeng.github.io/lixun-office-3d/"
+  },
+  {
+   "id": "sop-office",
+   "date": "2026-11",
+   "who": "Grok CEO",
+   "title": "3D 辦公室製作流程 SOP（約 20 頁 PDF）",
+   "done": true
+  },
+  {
+   "id": "sop-island",
+   "date": "2026-11",
+   "who": "Grok CEO",
+   "title": "建築散步島 SOP 初稿（約 20 頁 PDF）",
+   "done": true
+  },
+  {
+   "id": "shanhaitun",
+   "date": "2026-11-05",
+   "who": "Grok CEO",
+   "title": "山海屯文化部輔導簡報（含 QR Code）定稿",
+   "done": true
+  },
+  {
+   "id": "univ-merch",
+   "date": "2026-11",
+   "who": "Grok CEO",
+   "title": "外國名校高檔文創商品整理 PDF",
+   "done": true
+  }
+ ],
+ "plants": {
+  "defaultStage": "發芽",
+  "note": "成長階段：發芽／新葉／開花／茂盛。可由本檔 plants.stages 或網址 ?pstage= 控制。初始全部發芽。",
+  "stages": {
+   "彭立勛（老闆）": "發芽",
+   "Grok CEO": "發芽",
+   "Golden股票投資顧問": "發芽",
+   "Inno科技創新": "發芽",
+   "Europia台歐訊息": "發芽",
+   "Wendy醫學院教授": "發芽",
+   "Artemis(Diana)狩獵與自然女神": "發芽",
+   "Johnny導遊": "發芽",
+   "Athena智慧工藝女神": "發芽",
+   "Sandy外語老師": "發芽"
+  }
+ }
 }

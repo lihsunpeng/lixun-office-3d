@@ -7,9 +7,9 @@ const {THREE,S,C,R,O,DESKS,box,label}=window.__T;
 const nc=u=>u+(u.includes('?')?'&':'?')+'t='+Date.now();
 const ST=await fetch(nc('status.json')).then(r=>r.json()).catch(()=>({agents:{},achievements:[],meeting:[]}));
 const LOG=await fetch(nc('log.json')).then(r=>r.json()).catch(()=>({sessions:[]}));
-const SCOL={'待命':'#9ca3af','研究':'#3b82f6','執行':'#16a34a','異常':'#dc2626'};
+const SCOL={'待命':'#9ca3af','研究':'#3b82f6','執行':'#16a34a','異常':'#dc2626','工作中':'#3DA764','停工':'#EA3C3C'};
 const stOf=n=>(ST.agents[n]||{status:'待命'}).status;
-window.__typing=n=>stOf(n)==='執行'?1:0; // 只有「執行」才打字
+window.__typing=n=>(stOf(n)==='執行'||stOf(n)==='工作中')?1:0; // 只有「執行」才打字
 const css=document.createElement('style');css.textContent=`
 .up-btn{position:fixed;z-index:12;font:bold 14px sans-serif;padding:7px 10px;border-radius:9px;border:1px solid #889;background:#fff;cursor:pointer;box-shadow:0 2px 6px #0002}
 .up-pan{position:fixed;z-index:20;left:50%;top:50%;transform:translate(-50%,-50%);width:min(520px,92vw);max-height:80vh;overflow:auto;background:#fffffff6;border-radius:14px;padding:16px;font:14px "Noto Sans CJK TC",sans-serif;box-shadow:0 6px 30px #0005;display:none}

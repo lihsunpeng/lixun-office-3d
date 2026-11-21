@@ -36,7 +36,7 @@ body{font-family:"Hiragino Maru Gothic ProN","Zen Maru Gothic","Noto Sans CJK TC
  #panel{z-index:21;top:auto!important;right:auto!important;left:50%;transform:translateX(-50%);bottom:calc(10px + var(--sab));width:calc(100vw - 24px)!important;max-height:58dvh}
  .up-pan,#gardenPan,#helpPan{width:calc(100vw - 24px)!important;box-sizing:border-box}
  #helpPan{top:auto!important;bottom:calc(122px + var(--sab))!important;left:12px!important;max-height:34dvh!important}
- #ui{max-width:calc(100vw - 24px)!important;top:calc(158px + var(--sat))!important;max-height:calc(100dvh - 158px - 76px - var(--sat) - var(--sab))!important}
+ #ui{z-index:25!important;max-width:calc(100vw - 24px)!important;top:calc(158px + var(--sat))!important;max-height:calc(100dvh - 158px - 76px - var(--sat) - var(--sab))!important}
  #kbtn{display:block}
 }`;
 document.head.appendChild(st);
