@@ -15,7 +15,7 @@ body{font-family:"Hiragino Maru Gothic ProN","Zen Maru Gothic","Noto Sans CJK TC
 #ui button,#bar2 button,.up-btn,#panel button,#gardenPan button,.up-pan button,#eowbar select,#kHome,#kEow,#kbtn{font-family:inherit;border:2px solid var(--kp)!important;border-radius:999px!important;background:var(--kc)!important;color:var(--kd);font-weight:700;box-shadow:0 2px 0 #ed657855;cursor:pointer;touch-action:manipulation}
 #ui button:hover,#bar2 button:hover,#kHome:hover{background:var(--kb)!important}
 #ui button:active,#bar2 button:active,#kHome:active{transform:translateY(2px);box-shadow:none}
-#panel{top:calc(12px + var(--sat))!important;right:calc(12px + var(--sar))!important;max-height:calc(100dvh - 24px - var(--sat) - var(--sab));overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;box-sizing:border-box}
+#panel{top:calc(48px + var(--sat))!important;right:calc(12px + var(--sar))!important;max-height:calc(100dvh - 24px - var(--sat) - var(--sab));overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;box-sizing:border-box}
 .up-pan,#gardenPan,#helpPan{max-height:calc(100dvh - 40px - var(--sat) - var(--sab))!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
 #eowbar{background:#FFF1F6!important;border:3px solid var(--kp)!important;border-radius:22px!important;color:var(--kd);font-size:15px!important;box-shadow:0 5px 0 #ed657833!important;top:calc(10px + var(--sat))!important;max-width:min(560px,calc(100vw - 280px));box-sizing:border-box}
 #modeTag{background:var(--kr)!important;border-radius:999px!important;top:calc(10px + var(--sat))!important;right:calc(10px + var(--sar))!important}
